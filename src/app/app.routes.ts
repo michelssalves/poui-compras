@@ -1,15 +1,15 @@
 import { Routes } from '@angular/router';
 import { PedidosComponent } from './compras/pedidos/pedidos.component';
-import { SamplePoContainerDashboardComponent } from './sample-po-container-dashboard/sample-po-container-dashboard.component';
+import { DashboardComponent } from './compras/dashboard/dashboard.component';
 
 export const routes: Routes = [
     {
         path: '',
-        component: SamplePoContainerDashboardComponent
+        component: DashboardComponent
     },
     {
         path: 'dashboard',
-        component: SamplePoContainerDashboardComponent
+        component: DashboardComponent
     },
     {
         path: 'pedidos/listar',

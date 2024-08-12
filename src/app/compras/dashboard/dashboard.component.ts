@@ -1,19 +1,25 @@
 
 import { AfterContentChecked, Component, ViewChild, OnInit } from '@angular/core';
 import { NgForm, NgModel } from '@angular/forms';
-import { PoContainerModule, PoWidgetModule, PoPageModule, PoModalModule, PoFieldModule, PoDynamicModule,PoTableModule    } from '@po-ui/ng-components';
-
-
+import { DashboardService } from '../../_services/compras/dashboard/dashboard.service';
+import { GaugeComponent } from '../../_partials/gauge/gauge.component';
 import {
+  PoContainerModule,
+  PoWidgetModule,
   PoBreadcrumb,
+  PoPageModule,
+  PoModalModule,
+  PoFieldModule,
+  PoDynamicModule,
+  PoTableModule,
+  PoGaugeRanges,
   PoModalAction,
   PoModalComponent,
   PoNotificationService,
   PoPageAction,
-  PoTableColumn
+  PoTableColumn,
 } from '@po-ui/ng-components';
-import { DashboardService } from '../../_services/compras/dashboard/dashboard.service';
-
+import { ChartsComponent } from '../../_partials/charts/charts.component';
 
 @Component({
   selector: 'app-sample-po-container-dashboard',
@@ -26,12 +32,13 @@ import { DashboardService } from '../../_services/compras/dashboard/dashboard.se
     PoFieldModule,
     PoDynamicModule,
     PoTableModule,
-
+    GaugeComponent,
+    ChartsComponent
   ],
-  templateUrl: './sample-po-container-dashboard.component.html',
-  styleUrl: './sample-po-container-dashboard.component.css'
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.css'
 })
-export class SamplePoContainerDashboardComponent implements AfterContentChecked, OnInit {
+export class DashboardComponent implements AfterContentChecked, OnInit {
 
   @ViewChild('formShare', { static: true }) formShare?: NgForm;
   @ViewChild(PoModalComponent) poModal?: PoModalComponent;
@@ -71,7 +78,7 @@ export class SamplePoContainerDashboardComponent implements AfterContentChecked,
 
   constructor(
     private poNotification: PoNotificationService,
-    private sampleDashboardService: DashboardService
+    private sampleDashboardService: DashboardService,
   ) {}
 
   ngOnInit() {
@@ -104,5 +111,16 @@ export class SamplePoContainerDashboardComponent implements AfterContentChecked,
   private disableNotification() {
     this.isSubscribed = true;
   }
+  salesRanges: Array<PoGaugeRanges> = [
+    { from: 0, to: 50, label: 'Sales reduction', color: '#c64840' },
+    { from: 50, to: 75, label: 'Average sales', color: '#ea9b3e' },
+    { from: 75, to: 100, label: 'Sales soared', color: '#00b28e' }
+  ];
+
+  turnoverRanges: Array<PoGaugeRanges> = [
+    { from: 0, to: 50, label: 'Low rate', color: '#00b28e' },
+    { from: 50, to: 75, label: 'Average rate', color: '#ea9b3e' },
+    { from: 75, to: 100, label: 'High rate', color: '#c64840' }
+  ];
 
 }
