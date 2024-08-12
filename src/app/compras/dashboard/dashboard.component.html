@@ -1,41 +1,4 @@
-<po-page-default p-title="Dashboard" [p-actions]="actions" [p-breadcrumb]="breadcrumb">
-    <po-container class="po-lg-6">
-
-      <po-widget class="po-lg-12 po-mb-1" p-title="Most viewed page">
-        
-        <app-gauge></app-gauge>
-
-      </po-widget>
-  
-      <po-widget class="po-lg-12 po-mb-1" p-title="Most viewed page">
-        
-        <app-gauge></app-gauge>
-
-      </po-widget>
-
-      <po-widget class="po-lg-12 po-mb-1" p-title="Most viewed page">
-        
-        <app-gauge></app-gauge>
-
-      </po-widget>
-
-    </po-container>
-  
-    <po-container class="po-lg-6">
-      <po-table [p-columns]="columns" [p-items]="items" p-striped="true" [p-hide-table-search]="false"> </po-table>
-    </po-container>
-  </po-page-default>
-  
-  <po-modal p-title="Share webpage" [p-primary-action]="shareAction" [p-secondary-action]="cancelAction">
-    <form id="ngForm">
-      <po-email
-        class="po-lg-12"
-        name="email"
-        ngModel email
-        p-clean
-        p-label="Type an e-mail for sharing webpage: http://www.po.com.br"
-        p-required
-      >
-      </po-email>
-    </form>
-  </po-modal>
+<po-page-default [p-breadcrumb]="breadcrumb">
+  <app-filters></app-filters>
+  <app-charts></app-charts>
+</po-page-default>

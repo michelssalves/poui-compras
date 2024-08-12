@@ -19,6 +19,7 @@ import {
   PoToolbarModule,
  
 } from '@po-ui/ng-components';
+import { FiltersComponent } from './_partials/filters/filters.component';
 
 @Component({
   selector: 'app-root',
@@ -32,6 +33,7 @@ import {
     PoFieldModule,
     FormsModule,
     ReactiveFormsModule,
+    
   
   ],
   providers: [SidebarService],

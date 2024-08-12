@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { PoChartType, PoChartOptions, PoChartSerie, PoDialogService,  PoTableModule, PoContainerModule, PoWidgetModule , PoChartModule } from '@po-ui/ng-components';
+import { PoChartType, PoChartOptions, PoChartSerie, PoDialogService,  PoTableModule, PoContainerModule, PoWidgetModule, PoChartModule} from '@po-ui/ng-components';
 
 @Component({
   selector: 'app-charts',
