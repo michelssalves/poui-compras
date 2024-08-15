@@ -14,8 +14,20 @@
   </div>
   <div class="po-md-12 po-lg-12">
     <div class="po-row">
+      <po-chart
+      class="po-md-12 po-mt-2"
+      p-title="Preço nos ultimos três anos"
+      [p-options]="optionsColumn"
+      [p-categories]="categoriesColumn"
+      [p-series]="evolutionOfCoffeeAndSomeCompetitors"
+    >
+    </po-chart>
     </div>
-      <!-- <po-chart class="po-md-6 po-mt-2"
+  </div>
+  <!-- <div class="po-md-12 po-lg-12">
+    <div class="po-row">
+   
+      <po-chart class="po-md-6 po-mt-2"
         p-title="Ranking of the most purchased and consumed beverages in Germany between 2018 and 2020 - in %"
         [p-height]="816" [p-categories]="consumptionPerCapitaItems" [p-series]="consumptionPerCapita"
         [p-type]="consumptionPerCapitaType" [p-options]="consumptionPerCapitaOptions">
@@ -26,27 +38,10 @@
         [p-type]="consumptionPerCapitaType" [p-options]="consumptionPerCapitaOptions">
       </po-chart>
     </div>
-  </div>
-  <div class="po-md-12 po-lg-12">
-    <div class="po-row">
-      <po-chart
-      class="po-md-12 po-mt-2"
-      p-title="Evolution of coffee and some competitors - %"
-      [p-options]="optionsColumn"
-      [p-categories]="categoriesColumn"
-      [p-series]="evolutionOfCoffeeAndSomeCompetitors"
-    >
-    </po-chart>
-      <po-chart
-      class="po-md-12 po-mt-2"
-      p-title="Evolution of coffee and some competitors - %"
-      [p-options]="optionsColumn"
-      [p-categories]="categoriesColumn"
-      [p-series]="evolutionOfCoffeeAndSomeCompetitors"
-    >
-    </po-chart>
-    </div>
-  </div>
+  </div> 
+  
+
+   
   <div class="po-md-12 po-lg-12">
     <div class="po-row">
       <po-chart
@@ -69,6 +64,7 @@
   </po-chart>
     </div>
   </div>
+ 
   <div class="po-md-12 po-lg-12">
     <div class="po-row">
       <po-chart
@@ -89,6 +85,7 @@
   </po-chart>
     </div>
   </div>
+
   <div class="po-md-12 po-lg-12">
     <div class="po-row">
       <po-chart
@@ -129,3 +126,5 @@
       <po-table p-container="shadow" [p-items]="items" [p-hide-table-search]="true"> </po-table>
     </po-container>
   </div> -->
+
+</div>
