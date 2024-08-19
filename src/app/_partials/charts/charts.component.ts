@@ -13,13 +13,13 @@ import { PedidosService } from '../../_services/compras/pedidos/pedidos.service'
 })
 export class ChartsComponent {
 
-  // participationByCountryInWorldExportsType: PoChartType = PoChartType.Line;
+  
   evolutionOfCoffeeAndSomeCompetitorsType: PoChartType = PoChartType.Column;
   coffeConsumingChartType: PoChartType = PoChartType.Donut;
-  // consumptionPerCapitaType: PoChartType = PoChartType.Bar;
+  consumptionPerCapitaType: PoChartType = PoChartType.Bar;
 
   categoriesColumn: Array<any> = [];
-  // categories: Array<string> = ['2010', '2011', '2012', '2013', '2014', '2015','2024'];
+
   // chartAreaCategories: Array<string> = ['Jan-18', 'Jul-18', 'Jan-19', 'Jul-19', 'Jan-20', 'Jul-20', 'Jan-21'];
 
   coffeeProduction: Array<PoChartSerie> = []
@@ -27,6 +27,10 @@ export class ChartsComponent {
 
   //BARRAS EM PÉ
   evolutionOfCoffeeAndSomeCompetitors: Array<PoChartSerie> = [ ]
+    // COMPÁRAÇOES
+    participationByCountryInWorldExportsType: PoChartType = PoChartType.Line;
+    categories: Array<string> = [];
+    participation: Array<PoChartSerie> = [];
   ngOnInit() {
     this.pedidosService.getMaxPurchases().subscribe(
       response => {
@@ -49,15 +53,26 @@ export class ChartsComponent {
     this.pedidosService.getMaxPurchasesCol().subscribe(
       response => {
         this.evolutionOfCoffeeAndSomeCompetitors = response.objects;
-        console.log(this.evolutionOfCoffeeAndSomeCompetitors)
+       // console.log(response.objects)
       },
       error => {
         console.error('Erro ao obter dados:', error);
       }
-    );    
+    );  
+    this.pedidosService.getMaxPurchasesLine().subscribe(
+      response => {
+        this.categories = response.categories[0]
+        this.participation = response.participation;
+        console.log(response.categories)
+        console.log(response.participation)
+      },
+      error => {
+        console.error('Erro ao obter dados:', error);
+      }
+    );  
   }  
 
-  
+
 //  // ranking
 
 
@@ -66,40 +81,31 @@ export class ChartsComponent {
 //PIZZA
    
 //BARRAS DEITADAS 
-  // consumptionPerCapitaItems: Array<string> = [
-  //   'Water',
-  //   'Fruit Juice',
-  //   'Coffee',
-  //   'Cola drinks',
-  //   'Pils',
-  //   'Tea',
-  //   'Red Wine',
-  //   'Prosecco',
-  //   'Sodas',
-  //   'Beer 0% A.',
-  //   'Wheat Beer',
-  //   'Milk Shakes',
-  //   'Icetea'
-  // ];
-//  consumptionPerCapita: Array<PoChartSerie> = [
-//   { label: '2018', data: [86.5, 51.3, 44.6, 39.5, 27.6, 27.3, 25.4, 21.5, 20.8, 15.9, 15.4, 14.4] },
-//   { label: '2020', data: [86.1, 52.1, 47.3, 37.8, 29.8, 28.5, 24.9, 22.5, 21.1, 14.5, 15.5, 15.5] }
-// ];
-//BARRAS EM PÉ
-  // evolutionOfCoffeeAndSomeCompetitors: Array<PoChartSerie> = [
-  //   { label: '2014', data: [91, 40, 42], type: PoChartType.Column },
-  //   { label: '2017', data: [93, 52, 18], type: PoChartType.Column },
-  //   { label: '2020', data: [95, 21, -17], type: PoChartType.Column },
+  consumptionPerCapitaItems: Array<string> = [
+    'Water',
+    'Fruit Juice',
+    'Coffee',
+    'Cola drinks',
+    'Pils',
+    'Tea',
+    'Red Wine',
+    'Prosecco',
+    'Sodas',
+    'Beer 0% A.',
+    'Wheat Beer',
+    'Milk Shakes',
+    'Icetea'
+  ];
+ consumptionPerCapita: Array<PoChartSerie> = [
+  { label: '2018', data: [86.5, 51.3, 44.6, 39.5, 27.6, 27.3, 25.4, 21.5, 20.8, 15.9, 15.4, 14.4] },
+  { label: '2020', data: [86.1, 52.1, 47.3, 37.8, 29.8, 28.5, 24.9, 22.5, 21.1, 14.5, 15.5, 15.5] }
+];
+
 
   // ];
-  // COMPÁRAÇOES
-  // participationByCountryInWorldExports: Array<PoChartSerie> = [
-  //   { label: 'ST00001819', data: [48076923.0769]},
-  //   { label: 'ST00001819', data: [48076923.0769]},
-  //   { label: 'ST00001819', data: [48076923.0769]},
-  //   { label: 'ST00001819', data: [48076923.0769]}
-  // ];
-  // // //ROSCA
+
+
+  // //ROSCA
   // coffeeConsumption: Array<PoChartSerie> = [
   //   { label: 'Finland', data: 9.6, tooltip: 'Finland (Europe)' },
   //   { label: 'Norway', data: 7.2, tooltip: 'Norway (Europe)' },
