@@ -1,27 +1,50 @@
-# PouiCompras
+npm new proof-of-delivery --skip-install
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.4.
+npm install
 
-## Development server
+ng add @po-ui/ng-components
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+ng add @po-ui/ng-templates
 
-## Code scaffolding
+ng serve
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Criaçao de componentes
+ng g c [component name]  
+ng g s [componente name service]
 
-## Build
+Deixar o build assim
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+       "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/poui-compras",
+            "index": "src/index.html",
+            "main": "src/main.ts",
 
-## Running unit tests
+Setings->extensions->TOTVS->Totvs Language Server › Launch: Args->EDITJSON
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Colar esse abaixo
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+{
+    "totvsLanguageServer.folder.extensionsAllowed": [
+        ".PRW",
+        ".PRX",
+        ".PRG",
+        ".PPX",
+        ".PPP",
+        ".TLPP",
+        ".APW",
+        ".APH",
+        ".APL",
+        ".AHU",
+        ".TRES",
+        ".PNG",
+        ".BMP",
+        ".RES",
+        ".4GL",
+        ".PER",
+        ".JS",
+        ".RPTDESIGN",
+        ".APP"
+    ]
+}
