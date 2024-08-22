@@ -69,4 +69,15 @@ export class PedidosComponent  {
     { property: 'provider', label: 'Provider' }
   ];
 
+
+  // columns = [
+  //   { property: 'medicao', label: 'Medição' },
+  //   { property: 'contrato', label: 'Nº Contrato' },
+  //   { property: 'revisao', label: 'Nº Revisao' },
+  //   { property: 'competencia', label: 'Competencia' },
+    //  { property: 'descricao', label: 'Descricao' }
+  //   { property: 'valor', label: 'Valor' },
+
+  // ];
+
 }
