@@ -1,15 +1,13 @@
-<po-page-default  [p-breadcrumb]="breadcrumb" >
-  <po-container>
-    <div class="po-wrapper" >
-      <po-table [p-columns]="columns" [p-items]="pedidos">
-        <ng-template p-table-column-template let-items let-i="index">
-          <tr>
-            <td *ngFor="let column of columns">
-              {{ pedidos[column.property] }}
-            </td>
-          </tr>
-        </ng-template>
-      </po-table>
-    </div>
-  </po-container>
-</po-page-default>
+<po-container>
+  <div class="po-wrapper" >
+    <po-table [p-columns]="columns" [p-items]="pedidos">
+      <ng-template p-table-column-template let-items let-i="index">
+        <tr>
+          <td *ngFor="let column of columns">
+            {{ pedidos[column.property] }}
+          </td>
+        </tr>
+      </ng-template>
+    </po-table>
+  </div>
+</po-container>

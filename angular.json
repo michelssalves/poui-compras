@@ -28,7 +28,9 @@
             ],
             "styles": [
               "./node_modules/@po-ui/style/css/po-theme-default.min.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
+           
             ],
             "scripts": []
           },
@@ -37,8 +39,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1500kB",
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -87,6 +89,7 @@
             ],
             "styles": [
               "./node_modules/@po-ui/style/css/po-theme-default.min.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
             "scripts": []

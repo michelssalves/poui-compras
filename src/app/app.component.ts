@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { FormsModule, ReactiveFormsModule,  } from '@angular/forms';
 import { SidebarService } from './_services/sideBar/sidebar.service';
+import { filter } from 'rxjs/operators';
 import {
   PoContainerModule, 
   PoWidgetModule, 
@@ -19,7 +20,7 @@ import {
   PoToolbarModule,
  
 } from '@po-ui/ng-components';
-import { FiltersComponent } from './_partials/filters/filters.component';
+
 
 @Component({
   selector: 'app-root',
@@ -33,7 +34,7 @@ import { FiltersComponent } from './_partials/filters/filters.component';
     PoFieldModule,
     FormsModule,
     ReactiveFormsModule,
-    
+  
   
   ],
   providers: [SidebarService],
@@ -42,16 +43,14 @@ import { FiltersComponent } from './_partials/filters/filters.component';
 })
 export class AppComponent {
 
-  menuItemSelected: string = '';
-
-  public readonly breadcrumb: PoBreadcrumb = {
-    items: [{ label: 'Home', link: '/' }, { label: 'Dashboard' }]
-   };
+  // public readonly breadcrumb: PoBreadcrumb = {
+  //   items: [{ label: 'Home', link: '/' }, { label: 'Dashboard' }]
+  //  };
 
    public readonly actions: Array<PoPageAction> = [
     
   ];
-
+  menuItemSelected: string = '';
   menus: Array<PoMenuItem> = [
  
     { label: 'Dashboard',  action: this.printMenuAction.bind(this), icon: 'po-icon po-icon-chart-columns', link: 'dashboard' , shortLabel: 'dashboard'},
@@ -60,8 +59,7 @@ export class AppComponent {
       icon: 'po-icon po-icon-handshake',
       shortLabel: 'Cotações',
       subItems: [
-        { label: 'Criar', link: 'cotacoes/criar' },
-        { label: 'Listar', link: 'cotacoes/listar' }
+
       ]
     },
     {
@@ -70,14 +68,52 @@ export class AppComponent {
       shortLabel: 'Pedidos',
       subItems: [
         { label: 'Listar', link: 'pedidos/listar' },
-        { label: 'FollowUp', link: 'pedidos/followup' }
+      ]
+    },
+    {
+      label: 'Contratos',
+      icon: 'po-icon po-icon-document-filled',
+      shortLabel: 'Contratos',
+      subItems: [
+        { label: 'Listar', link: 'medicoes/listar' }
+   
       ]
     },
    
   ];
 
-  constructor(public SidebarService: SidebarService) {}
+  constructor(public SidebarService: SidebarService, private router: Router, private route: ActivatedRoute) {}
   printMenuAction(menu: PoMenuItem) {
     this.menuItemSelected = menu.label;
   }
+
+  public breadcrumb: PoBreadcrumb = {
+    items: [{ label: 'Home', link: '/home' }]
+  };
+
+
+  ngOnInit(): void {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.updateBreadcrumb();
+      });
+  }
+
+  updateBreadcrumb(): void {
+    const currentRoute = this.route.root.firstChild?.snapshot;
+    if (currentRoute) {
+      const breadcrumbLabel = currentRoute.title || 'Home';
+      const breadcrumbLink = this.router.url;
+      console.log(breadcrumbLink)
+
+      this.breadcrumb.items = [
+        { label: 'Contratos', link: '/home' },
+        { label: breadcrumbLabel, link: breadcrumbLink }
+      ];
+    }
+  }
+
+
+
 }
