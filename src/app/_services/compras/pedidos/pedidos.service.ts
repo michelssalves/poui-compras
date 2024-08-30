@@ -8,13 +8,14 @@ import { Observable } from 'rxjs';
 export class PedidosService {
 
   private apiUrl = 'http://vhwin1065:9023/rest/zWSPedidos/get_all/';
-  private apiUrlgetMaxPurchases = 'http://vhwin1065:9023/rest/zWSPedidos/get_max_purchases';
-  private apiUrlgetMaxPurchasesTab = 'http://vhwin1065:9023/rest/zWSPedidos/get_max_purchases_tab';
-  private apiUrlgetMaxPurchasesCol = 'http://vhwin1065:9023/rest/zWSPedidos/get_max_purchases_col/';
-  private apiUrlgetMaxPurchasesLine = 'http://vhwin1065:9023/rest/zWSPedidos/get_max_purchases_line/';
+  private apiPizza = 'http://vhwin1065:9023/rest/zWSDash/get_max_purchases_pizza';
+  private apiTable = 'http://vhwin1065:9023/rest/zWSDash/get_max_purchases_tab';
+  private apiCols = 'http://vhwin1065:9023/rest/zWSDash/get_max_purchases_col';
+  private apiLines = 'http://vhwin1065:9023/rest/zWSDash/get_max_purchases_lin';
   
 
   constructor(private http: HttpClient) { }
+
 
   getData(): Observable<any> {
     return this.http.get<any>(this.apiUrl);
@@ -24,17 +25,23 @@ export class PedidosService {
     return this.http.post<any>(this.apiUrl, data);
   }
 
-  getMaxPurchases(): Observable<any> {
-    return this.http.get<any>(this.apiUrlgetMaxPurchases);
+  getPizza(tipo: string, ano: string): Observable<any> {
+    const url = `${this.apiPizza}?tipo=${tipo}&ano=${ano}`;
+    return this.http.get<any>(url);
   }
-  getMaxPurchasesTab(): Observable<any> {
-    return this.http.get<any>(this.apiUrlgetMaxPurchasesTab);
+  getTable(tipo: string, ano: string): Observable<any> {
+    const url = `${this.apiTable}?tipo=${tipo}&ano=${ano}`;
+    return this.http.get<any>(url);
   }
-  getMaxPurchasesCol(): Observable<any> {
-    return this.http.get<any>(this.apiUrlgetMaxPurchasesCol);
+  getCols(tipo: string, produto: string, ano: string): Observable<any> {
+   
+    const url = `${this.apiCols}?tipo=${tipo}&produto=${produto}&ano=${ano}`;
+    return this.http.get<any>(url);
   }
-  getMaxPurchasesLine(): Observable<any> {
-    return this.http.get<any>(this.apiUrlgetMaxPurchasesLine);
+  getLines(produtos: string[], ano: string): Observable<any> {
+    const url = `${this.apiLines}?produtos=${produtos}&ano=${ano}`;
+    return this.http.get<any>(url);
   }
+
 
 }

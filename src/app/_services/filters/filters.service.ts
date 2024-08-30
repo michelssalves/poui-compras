@@ -59,4 +59,5 @@ export class FiltersService {
       { value: 'tundra', label: 'Tundra' }
     ];
   }
+
 }

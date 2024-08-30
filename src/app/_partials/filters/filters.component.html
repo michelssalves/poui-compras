@@ -1,8 +1,15 @@
 <div class="po-row">
     <po-input class="po-md-3" name="name" p-label="Pedido">
     </po-input>
-    <po-combo class="po-md-3" name="climate" p-label="Fornecedor">
-    </po-combo>
+    <po-select
+      class="po-md-2"
+      name="Tipo"
+      p-label="From"
+      p-required
+      [p-options]="tipos"
+    
+    >
+    </po-select>
     <po-datepicker class="po-md-3" p-clean p-label="Data Incial">
     </po-datepicker>
     <po-datepicker class="po-md-3" p-clean p-label="Data Final">

@@ -3,20 +3,18 @@ import { MedicoesService } from '../services/medicoes.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { PoBreadcrumb, PoModalAction, PoModalComponent } from '@po-ui/ng-components';
 import { Component, OnInit, ViewChild, NgModule } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-medicoes',
   templateUrl: './medicoes.component.html',
-  styleUrls: ['./medicoes.component.css']
+  styleUrls: ['./medicoes.component.css'],
+  providers: [DecimalPipe]
 })
 export class MedicoesComponent implements OnInit {
 
   @ViewChild(PoModalComponent, { static: true }) poModal!: PoModalComponent;
   @ViewChild('optionsForm', { static: true }) form!: NgForm;
-
-  // public readonly breadcrumb: PoBreadcrumb = {
-  //   items: [{ label: 'Home', link: '/' }, { label: 'Dashboard' }]
-  //  };
 
   medicoes: any[] = [];
   selectedItem: any = {};
@@ -26,6 +24,7 @@ export class MedicoesComponent implements OnInit {
   isGerenciadora: boolean = false;
   isNFEmitida: boolean = false;
   gerenciadoraSelecionada: string | undefined;
+  selection: Array<string>;
   
   
   close: PoModalAction = {
@@ -39,7 +38,7 @@ export class MedicoesComponent implements OnInit {
     label: 'Confirm'
   };
 
-  constructor(private medicoesService: MedicoesService) {
+  constructor(private medicoesService: MedicoesService, private decimalPipe: DecimalPipe) {
     this.dataFormatada = this.formatarData(this.dataAtual);
   
   }

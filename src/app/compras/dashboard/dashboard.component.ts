@@ -21,6 +21,7 @@ import {
 } from '@po-ui/ng-components';
 import { ChartsComponent } from '../../_partials/charts/charts.component';
 import { FiltersComponent } from '../../_partials/filters/filters.component';
+import { FiltersService } from '../../_services/filters/filters.service';
 
 @Component({
   selector: 'app-sample-po-container-dashboard',
@@ -48,6 +49,7 @@ export class DashboardComponent  {
 
   constructor(
     private sampleDashboardService: DashboardService,
+    private filterService:FiltersService
   ) {}
 
 }
