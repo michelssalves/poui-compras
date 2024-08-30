@@ -2,3 +2,12 @@
 ol, ul {
      padding-left: 0rem; 
 }
+.po-menu-item, .po-menu-list, .po-menu-nav, .po-menu-inner, .po-menu-outer,.po-menu-container, .po-menu, .po-menu-footer, .po-menu-collapse-button-icon, .po-field-icon, .po-field-icon-disabled {
+     color: #045b8f;
+ 
+}
+
+.po-breadcrumb-item-activate, .po-link{
+     color: black; 
+; 
+}
