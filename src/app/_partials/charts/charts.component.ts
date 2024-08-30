@@ -63,6 +63,12 @@ export class ChartsComponent {
     { value: 'MP88000028', label: '4' },
     { value: 'MC40009106', label: '5' }
   ];
+  
+  constructor(
+    private poAlert: PoDialogService,
+    private pedidosService: PedidosService,
+    private filterService:FiltersService
+  ) {}
 
   ngOnInit() {
     this.getPizza()
@@ -70,6 +76,9 @@ export class ChartsComponent {
     this.getCols()
     this.getLines()
   } 
+  searchMore(event: any) {
+    window.open(`http://google.com/search?q=coffee+producing+${event.label}`, '_blank');
+  }
   getPizza(){
 
     console.log(this.tipo)
@@ -176,24 +185,9 @@ export class ChartsComponent {
     }
   };
 
-  constructor(
-    private poAlert: PoDialogService,
-    private pedidosService: PedidosService,
-    private filterService:FiltersService
-  ) {}
-
-  searchMore(event: any) {
-    window.open(`http://google.com/search?q=coffee+producing+${event.label}`, '_blank');
-  }
-  
 
 
-  showMeTheDates(event: any) {
-    this.poAlert.alert({
-      title: 'Statistic',
-      message: `${event.label} consuming ${event.data}kg per capita!`,
-      ok: () => {}
-    });
-  }
+
+
 
 }
