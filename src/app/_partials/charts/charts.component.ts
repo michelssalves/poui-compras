@@ -42,20 +42,22 @@ export class ChartsComponent {
     { label: '2022', value: '2022' },
     { label: '2021', value: '2021' }
   ];
-  readonly tipos: Array<PoSelectOption> = [
-    { label: 'MATERIAL DE LIMPEZA', value: 'LI' },
-    { label: 'SERVICO TERCEIRO', value: 'ST' },
-    { label: 'MATERIAIS CONSUMO', value: 'MC' },
-    { label: 'FERRAMENTAS EM GERAL', value: 'FG' },
-    { label: 'ELEMENTOS MECANICOS', value: 'EM' }
-  ];
+  //  grupos: Array<PoSelectOption> = [
+  //   { label: 'MATERIAL DE LIMPEZA', value: 'LI' },
+  //   { label: 'SERVICO TERCEIRO', value: 'ST' },
+  //   { label: 'MATERIAIS CONSUMO', value: 'MC' },
+  //   { label: 'FERRAMENTAS EM GERAL', value: 'FG' },
+  //   { label: 'ELEMENTOS MECANICOS', value: 'EM' }
+  // ];
 
-  readonly produtos:Array<PoSelectOption> = [
-    { label: 'MANGUEIRAS E CONEXOES PARA PTS', value: 'EM00000935' },
-    { label: 'PINO DO SKEW PARA TR KALMAR 21', value: 'EM00009938' },
-    { label: 'PONTEIRA;SOLDA;30KVA;220V;PESO', value: 'FG00001007' },
-    { label: 'MARCADORA;PNEUS;9 DIGITOS;20MM', value: 'FG90607855' }
-  ]
+  // produtos:Array<PoSelectOption> = [
+  //   { label: 'MANGUEIRAS E CONEXOES PARA PTS', value: 'EM00000935' },
+  //   { label: 'PINO DO SKEW PARA TR KALMAR 21', value: 'EM00009938' },
+  //   { label: 'PONTEIRA;SOLDA;30KVA;220V;PESO', value: 'FG00001007' },
+  //   { label: 'MARCADORA;PNEUS;9 DIGITOS;20MM', value: 'FG90607855' }
+  // ]
+  grupos: Array<PoSelectOption> = []
+  produtos:Array<PoSelectOption> = []
   mProdutos: Array<PoMultiselectOption> = [
     { value: 'MC40000040', label: '1' },
     { value: 'MC40000427', label: '2' },
@@ -75,9 +77,35 @@ export class ChartsComponent {
     this.getTable()
     this.getCols()
     this.getLines()
+    this.getGroups()
+    this.getProducts()
   } 
   searchMore(event: any) {
     window.open(`http://google.com/search?q=coffee+producing+${event.label}`, '_blank');
+  }
+  getGroups(){
+    console.log(this.tipo)
+    this.pedidosService.getGroups().subscribe(
+      response => {
+        this.grupos = response.objects;
+        //console.log(this.pizzaItens)
+      },
+      error => {
+        console.error('Erro ao obter dados:', error);
+      }
+    );
+  }
+  getProducts(){
+    console.log(this.tipo)
+    this.pedidosService.getProducts(this.tipo).subscribe(
+      response => {
+        this.produtos = response.objects;
+        //console.log(this.pizzaItens)
+      },
+      error => {
+        console.error('Erro ao obter dados:', error);
+      }
+    );
   }
   getPizza(){
 
@@ -133,6 +161,7 @@ export class ChartsComponent {
     this.getPizza()
     this.getTable()
     this.getCols()
+    this.getProducts()
 
   }
   changeAno(event: any) {
