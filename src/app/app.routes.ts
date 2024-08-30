@@ -6,7 +6,8 @@ import { MedicoesComponent } from './medicoes'
 export const routes: Routes = [
     {
         path: '',
-        component: DashboardComponent
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
     },
     {
         title: 'Dashboard',
@@ -23,23 +24,9 @@ export const routes: Routes = [
         path: 'pedidos/listar',
         component: PedidosComponent
     },
-    // {
-    //     path: 'pedidos/followup',
-    //     component: PedidosComponent
-    // },
-    // {
-    //     path: 'cotacoes/criar',
-    //     component: PedidosComponent
-    // },
-    // {
-    //     path: 'cotacoes/listar',
-    //     component: PedidosComponent
-    // }
-    // {
-    //     path: 'medicoes',
-    //     pathMatch: 'full'
-  
-    // },
-    //   ...MedicoesRoutes
+    {
+        path: '**',
+        redirectTo: 'dashboard'
+    }
 
 ];
