@@ -108,7 +108,7 @@ export class AppComponent {
       console.log(breadcrumbLink)
 
       this.breadcrumb.items = [
-        { label: 'Contratos', link: '/home' },
+        { label: 'Compras', link: '/home' },
         { label: breadcrumbLabel, link: breadcrumbLink }
       ];
     }

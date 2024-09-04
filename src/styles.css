@@ -1,13 +1,36 @@
 /* You can add global styles to this file, and also import other style files */
-ol, ul {
-     padding-left: 0rem; 
-}
-.po-menu-item, .po-menu-list, .po-menu-nav, .po-menu-inner, .po-menu-outer,.po-menu-container, .po-menu, .po-menu-footer, .po-menu-collapse-button-icon, .po-field-icon, .po-field-icon-disabled {
-     color: #045b8f;
- 
+ol,
+ul {
+     padding-left: 0rem;
 }
 
-.po-breadcrumb-item-activate, .po-link{
-     color: black; 
-; 
+:root {
+     --color-brand-01-lighter: #cfd8dd;
+     --background-color-pressed: transparent;
+     --background-color-actived: transparent;
+     --color-brand-01-light: transparent;
+     --color-brand-01-lightest: transparent;
+     --color-action-pressed: #045b8f;
+     --color-brand-01-darkest: #505f69;
+     --color-brand-01-dark: #045b8f;
+     --color-current-page: #238ac7;
+
+}
+
+.po-menu,
+.po-menu-item,
+.po-menu-collapse-button-icon {
+     color: #045b8f;
+}
+
+.po-menu-mobile {
+     color: #045b8f;
+
+}
+
+.po-breadcrumb-item-activate {
+     color: var(--color-current-page);
+     white-space: nowrap;
+     font-weight: bold;
+     color: #507085;
 }
