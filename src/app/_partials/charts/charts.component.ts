@@ -99,7 +99,8 @@ export class ChartsComponent {
     console.log(this.tipo)
     this.pedidosService.getProducts(this.tipo).subscribe(
       response => {
-        this.produtos = response.objects;
+        this.produtos = response.product
+        this.mProdutos = response.products
         //console.log(this.pizzaItens)
       },
       error => {
@@ -145,7 +146,7 @@ export class ChartsComponent {
     );
   }
   getLines(){
-    this.pedidosService.getLines(this.mProduto, this.ano).subscribe(
+    this.pedidosService.getLines(this.tipo, this.mProduto, this.ano).subscribe(
       response => {
         this.categories = response.categories[0]
         this.participation = response.participation;

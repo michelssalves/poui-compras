@@ -44,8 +44,8 @@ export class PedidosService {
     const url = `${this.apiCols}?tipo=${tipo}&produto=${produto}&ano=${ano}`;
     return this.http.get<any>(url);
   }
-  getLines(produtos: string[], ano: string): Observable<any> {
-    const url = `${this.apiLines}?produtos=${produtos}&ano=${ano}`;
+  getLines(tipo: string, produtos: string[], ano: string): Observable<any> {
+    const url = `${this.apiLines}?tipo=${tipo}&produtos=${produtos}&ano=${ano}`;
     return this.http.get<any>(url);
   }
 
