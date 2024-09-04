@@ -18,8 +18,9 @@ import { FiltersService } from '../../_services/filters/filters.service';
 })
 export class ChartsComponent {
 
-  tipo: string = 'LI';
-  ano: string = '2024'
+  grupo: string = 'LI';
+  mes: string = this.mesAtual();
+  ano: string = this.anoAtual()
   produto: string = 'MC40009135'
   mProduto: string[] = [];
  
@@ -42,29 +43,23 @@ export class ChartsComponent {
     { label: '2022', value: '2022' },
     { label: '2021', value: '2021' }
   ];
-  //  grupos: Array<PoSelectOption> = [
-  //   { label: 'MATERIAL DE LIMPEZA', value: 'LI' },
-  //   { label: 'SERVICO TERCEIRO', value: 'ST' },
-  //   { label: 'MATERIAIS CONSUMO', value: 'MC' },
-  //   { label: 'FERRAMENTAS EM GERAL', value: 'FG' },
-  //   { label: 'ELEMENTOS MECANICOS', value: 'EM' }
-  // ];
-
-  // produtos:Array<PoSelectOption> = [
-  //   { label: 'MANGUEIRAS E CONEXOES PARA PTS', value: 'EM00000935' },
-  //   { label: 'PINO DO SKEW PARA TR KALMAR 21', value: 'EM00009938' },
-  //   { label: 'PONTEIRA;SOLDA;30KVA;220V;PESO', value: 'FG00001007' },
-  //   { label: 'MARCADORA;PNEUS;9 DIGITOS;20MM', value: 'FG90607855' }
-  // ]
+  readonly meses: Array<PoSelectOption> = [
+    { label: 'JAN' , value: '01'  },
+    { label: 'FEV' , value: '02'  },
+    { label: 'MAR' , value: '03'  },
+    { label: 'ABR' , value: '04'  },
+    { label: 'MAI' , value: '05'  },
+    { label: 'JUN' , value: '06'  },
+    { label: 'JUL' , value: '07'  },
+    { label: 'AGO' , value: '08'  },
+    { label: 'SET' , value: '09'  },
+    { label: 'OUT' , value: '10'  },
+    { label: 'NOV' , value: '11'  },
+    { label: 'DEZ' , value: '12'  }
+  ];
   grupos: Array<PoSelectOption> = []
   produtos:Array<PoSelectOption> = []
-  mProdutos: Array<PoMultiselectOption> = [
-    { value: 'MC40000040', label: '1' },
-    { value: 'MC40000427', label: '2' },
-    { value: 'MC40000162', label: '3' },
-    { value: 'MP88000028', label: '4' },
-    { value: 'MC40009106', label: '5' }
-  ];
+  mProdutos: Array<PoMultiselectOption> = [];
   
   constructor(
     private poAlert: PoDialogService,
@@ -79,12 +74,14 @@ export class ChartsComponent {
     this.getLines()
     this.getGroups()
     this.getProducts()
+    console.log(this.mesAtual())
+   
   } 
   searchMore(event: any) {
     window.open(`http://google.com/search?q=coffee+producing+${event.label}`, '_blank');
   }
   getGroups(){
-    console.log(this.tipo)
+    console.log(this.grupo)
     this.pedidosService.getGroups().subscribe(
       response => {
         this.grupos = response.objects;
@@ -95,9 +92,17 @@ export class ChartsComponent {
       }
     );
   }
+  anoAtual(){
+    const agora = new Date()
+    return agora.getFullYear().toString()
+  }
+  mesAtual(){
+    const data = new Date();
+    return (data.getMonth() + 1).toString().padStart(2, '0');
+  }
   getProducts(){
-    console.log(this.tipo)
-    this.pedidosService.getProducts(this.tipo).subscribe(
+    console.log(this.grupo)
+    this.pedidosService.getProducts(this.grupo).subscribe(
       response => {
         this.produtos = response.product
         this.mProdutos = response.products
@@ -110,8 +115,8 @@ export class ChartsComponent {
   }
   getPizza(){
 
-    console.log(this.tipo)
-    this.pedidosService.getPizza(this.tipo, this.ano).subscribe(
+    console.log(this.grupo)
+    this.pedidosService.getPizza(this.grupo, this.mes, this.ano).subscribe(
       response => {
         this.pizzaItens = response.objects;
         //console.log(this.pizzaItens)
@@ -123,7 +128,7 @@ export class ChartsComponent {
   } 
   getTable(){
 
-    this.pedidosService.getTable(this.tipo, this.ano).subscribe(
+    this.pedidosService.getTable(this.grupo, this.mes, this.ano).subscribe(
       response => {
         this.tableItens = response.objects;
         //console.log(this.tableItens)
@@ -135,7 +140,7 @@ export class ChartsComponent {
   }
   getCols(){
 
-    this.pedidosService.getCols(this.tipo, this.produto, this.ano).subscribe(
+    this.pedidosService.getCols(this.grupo, this.produto, this.ano).subscribe(
       response => {
         this.evolutionOfCoffeeAndSomeCompetitors = response.objects;
         //console.log(this.tableItens)
@@ -146,7 +151,7 @@ export class ChartsComponent {
     );
   }
   getLines(){
-    this.pedidosService.getLines(this.tipo, this.mProduto, this.ano).subscribe(
+    this.pedidosService.getLines(this.grupo, this.mProduto, this.ano).subscribe(
       response => {
         this.categories = response.categories[0]
         this.participation = response.participation;
@@ -165,6 +170,13 @@ export class ChartsComponent {
     this.getProducts()
 
   }
+  changeMes(event: any) {
+
+    this.getPizza()
+    this.getTable()
+    this.getCols()
+
+  }
   changeAno(event: any) {
 
     this.getPizza()
@@ -180,6 +192,9 @@ export class ChartsComponent {
 
   }
   changeProdutos(event: any) {
+
+    this.categories = []
+    this.participation = []
 
     this.getLines()
   
@@ -214,10 +229,5 @@ export class ChartsComponent {
       gridLines: 7
     }
   };
-
-
-
-
-
 
 }

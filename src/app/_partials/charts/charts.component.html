@@ -1,93 +1,59 @@
 <div class="po-row">
-  <po-select
-    class="po-md-2"
-    name="Tipo"
-    p-label="Tipos de produto"
-    p-required
-    [p-options]="grupos"
-    (ngModel)="tipo"
-    (p-change)="changeTipo($event)"
-    (ngModelChange)="tipo = $event"
-  >
+  <po-select class="po-md-2" name="Tipo" p-label="Tipos de produto" p-required [p-options]="grupos" (ngModel)="grupo"
+    (p-change)="changeTipo($event)" (ngModelChange)="grupo = $event">
   </po-select>
-  <po-select
-  class="po-md-2"
-  name="Ano"
-  p-label="Ano"
-  p-required
-  [p-options]="anos"
-  (ngModel)="ano"
-  (p-change)="changeAno($event)"
-  (ngModelChange)="ano = $event"
->
-</po-select>
-<po-select
-class="po-md-2"
-name="produto"
-p-label="Produtos"
-p-required
-[p-options]="produtos"
-(ngModel)="produto"
-(p-change)="changeProduto($event)"
-(ngModelChange)="produto = $event"
->
-</po-select>
+  <po-select class="po-md-2" name="Mês" p-label="Ano" p-required [p-options]="meses" (ngModel)="mes"
+  (p-change)="changeMes($event)" (ngModelChange)="mes = $event">
+  </po-select>
+  <po-select class="po-md-2" name="Ano" p-label="Ano" p-required [p-options]="anos" (ngModel)="ano"
+    (p-change)="changeAno($event)" (ngModelChange)="ano = $event">
+  </po-select>
 
+</div>
+<div class="po-row">
+  <div class="po-md-12 po-lg-12">
+    <po-container class="po-lg-4 po-mt-2">
+      <div class="po-font-text-bold">Top 5 Produtos com maior custo por Grupo</div>
+      <po-chart [p-title]="grupo" [p-series]="pizzaItens" (p-series-click)="searchMore($event)">
+      </po-chart>
+    </po-container>
+    <po-container class="po-lg-8 po-mt-2">
+      <po-table p-container="shadow" [p-items]="tableItens" [p-hide-table-search]="true"> </po-table>
+    </po-container>
+  </div>
 </div>
 <hr />
 <div class="po-row">
+  <po-select class="po-md-2" name="produto" p-label="Produtos" p-required [p-options]="produtos" (ngModel)="produto"
+    class="po-md-3" (p-change)="changeProduto($event)" (ngModelChange)="produto = $event">
+  </po-select>
+</div>
+<div class="po-row">
   <div class="po-md-12 po-lg-12">
-    <div class="po-row">
-    <po-container class="po-lg-6 po-mt-2">
-      <div class="po-font-text-bold">Top 5 Produtos com maior custo por Grupo</div>
-      <po-chart  p-title="Limpeza"
-        [p-series]="pizzaItens" (p-series-click)="searchMore($event)">
-      </po-chart>
-    </po-container>
-      <po-container class="po-lg-6 po-mt-2">
-        <po-table p-container="shadow" [p-items]="tableItens" [p-hide-table-search]="true"> </po-table>
-      </po-container>
-    </div>
-  </div>
-  <div class="po-md-12 po-lg-12">
-    <div class="po-row">
-      <po-chart
-      class="po-md-12 po-mt-2"
-      p-title="Preço nos ultimos três anos"
-      [p-options]="optionsColumn"
-      [p-categories]="categoriesColumn"
-      [p-series]="evolutionOfCoffeeAndSomeCompetitors"
-    >
+    <po-chart class="po-md-12 po-mt-2" p-title="Preço nos ultimos três anos" [p-options]="optionsColumn"
+      [p-categories]="categoriesColumn" [p-series]="evolutionOfCoffeeAndSomeCompetitors">
     </po-chart>
-    </div>
   </div>
+</div>
+<hr />
+<div class="po-row">
+  <po-multiselect (ngModel)="mProduto" (p-change)="changeProdutos($event)" (ngModelChange)="mProduto = $event"
+    class="po-md-3" name="multiselect" p-label="Comparar Produtos" [p-options]="mProdutos">Selecione</po-multiselect>
+</div>
+<div class="po-md-12 po-lg-12">
   <div class="po-row">
-    <po-multiselect 
-    (ngModel)="mProduto"
-    (p-change)="changeProdutos($event)"
-    (ngModelChange)="mProduto = $event"
-    class="po-md-3" name="multiselect" p-label="Comparar Produtos" [p-options]="mProdutos"> </po-multiselect>
-  </div>
-   <div class="po-md-12 po-lg-12">
-    <div class="po-row">
-      <po-chart
-      class="po-md-12 po-mt-2"
-      p-title="Variação de preços por Ano"
-      [p-options]="options"
-      [p-categories]="categories"
-      [p-series]="participation"
-      [p-type]="participationByCountryInWorldExportsType"
-    >
+    <po-chart class="po-md-12 po-mt-2" p-title="Variação de preços por Ano" [p-options]="options"
+      [p-categories]="categories" [p-series]="participation" [p-type]="participationByCountryInWorldExportsType">
     </po-chart>
-    <!-- <po-chart class="po-md-6 po-mt-2"
+  </div>
+</div>
+
+<!--
+       <po-chart class="po-md-6 po-mt-2"
     p-title="Ranking of the most purchased and consumed beverages in Germany between 2018 and 2020 - in %"
     [p-height]="816" [p-categories]="consumptionPerCapitaItems" [p-series]="consumptionPerCapita"
     [p-type]="consumptionPerCapitaType" [p-options]="consumptionPerCapitaOptions">
-  </po-chart> -->
-    </div>
-  </div> 
-  
-<!--
+  </po-chart> 
    
   <div class="po-md-12 po-lg-12">
     <div class="po-row">
@@ -165,5 +131,3 @@ p-required
       <po-table p-container="shadow" [p-items]="items" [p-hide-table-search]="true"> </po-table>
     </po-container>
   </div> -->
-
-</div>

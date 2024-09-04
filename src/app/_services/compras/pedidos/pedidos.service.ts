@@ -31,12 +31,12 @@ export class PedidosService {
     const url = `${this.apiProducts}?tipo=${tipo}`;
     return this.http.get<any>(url);
   }
-  getPizza(tipo: string, ano: string): Observable<any> {
-    const url = `${this.apiPizza}?tipo=${tipo}&ano=${ano}`;
+  getPizza(tipo: string, mes: string, ano: string): Observable<any> {
+    const url = `${this.apiPizza}?tipo=${tipo}&mes=${mes}&ano=${ano}`;
     return this.http.get<any>(url);
   }
-  getTable(tipo: string, ano: string): Observable<any> {
-    const url = `${this.apiTable}?tipo=${tipo}&ano=${ano}`;
+  getTable(tipo: string, mes: string, ano: string): Observable<any> {
+    const url = `${this.apiTable}?tipo=${tipo}&mes=${mes}&ano=${ano}`;
     return this.http.get<any>(url);
   }
   getCols(tipo: string, produto: string, ano: string): Observable<any> {
