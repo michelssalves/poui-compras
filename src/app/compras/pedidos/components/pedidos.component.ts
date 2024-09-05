@@ -17,13 +17,14 @@ import {
 import { CommonModule } from '@angular/common';
 import { AfterContentChecked, Component, ViewChild, OnInit } from '@angular/core';
 import { NgForm, NgModel } from '@angular/forms';
-import { PedidosService } from '../../_services/compras/pedidos/pedidos.service';
+import { PedidosService } from '../services';
+
 
 @Component({
   selector: 'app-pedidos',
   standalone: true,
   imports: [
-    PoTableModule, 
+  PoTableModule, 
     CommonModule,
     PoContainerModule, 
     PoPageModule,
@@ -46,10 +47,10 @@ export class PedidosComponent  {
   items: [{ label: 'Pedidos', link: '/' }, { label: 'Listar' }]
  };
 
- constructor(private dataService: PedidosService) { }
+ constructor(private pedidosService: PedidosService) { }
 
   ngOnInit() {
-    this.dataService.getData().subscribe(
+    this.pedidosService.getData().subscribe(
       response => {
         this.pedidos = response.objects; // Supondo que a resposta seja { objects: [...] }
         console.log(this.pedidos);

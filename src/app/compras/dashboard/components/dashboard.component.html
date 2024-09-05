@@ -1,0 +1,50 @@
+<div class="po-row">
+    <po-select class="po-md-4 " name="Tipo" p-label="Tipos de produto" p-required [p-options]="grupos" (ngModel)="grupo"
+      (p-change)="changeTipo($event)" (ngModelChange)="grupo = $event">
+    </po-select>
+    <po-select class="po-md-2" name="Mês" p-label="Mês" p-required [p-options]="meses" (ngModel)="mes"
+    (p-change)="changeMes($event)" (ngModelChange)="mes = $event">
+    </po-select>
+    <po-select class="po-md-2" name="Ano" p-label="Ano" p-required [p-options]="anos" (ngModel)="ano"
+      (p-change)="changeAno($event)" (ngModelChange)="ano = $event">
+    </po-select>
+  </div>
+  <div class="po-row">
+    <div class="po-md-12 po-lg-12">
+      <po-container class="po-lg-4 po-mt-2">
+        <div class="po-font-text-bold po-mt-2">Top 10 Produtos com maior custo do Grupo:  {{groupName}}</div>
+        <po-chart [p-series]="pizzaItens" (p-series-click)="searchMore($event)">
+        </po-chart>
+      </po-container>
+      <po-container class="po-lg-8 po-mt-2">
+        <po-table p-container="shadow" [p-items]="tableItens" [p-hide-table-search]="true"> </po-table>
+      </po-container>
+    </div>
+  </div>
+  <hr />
+  <div class="po-row">
+    <po-select class="po-md-2" name="produto" p-label="Produtos" p-required [p-options]="produtos" (ngModel)="produto"
+      class="po-md-3" (p-change)="changeProduto($event)" (ngModelChange)="produto = $event">
+    </po-select>
+  </div>
+  <div class="po-row">
+    <div class="po-md-12 po-lg-12">
+      <div class="po-font-text-bold po-mt-2">Preço nos ultimos três anos do Grupo: {{groupName}}</div>
+      <po-chart class="po-md-12 po-mt-2" [p-options]="optionsColumn"
+        [p-categories]="categoriesColumn" [p-series]="evolutionOfCoffeeAndSomeCompetitors">
+      </po-chart>
+    </div>
+  </div>
+  <hr />
+  <div class="po-row">
+    <po-multiselect (ngModel)="mProduto" (p-change)="changeProdutos($event)" (ngModelChange)="mProduto = $event"
+      class="po-md-3" name="multiselect" p-label="Comparar Produtos" [p-options]="mProdutos">Selecione</po-multiselect>
+  </div>
+  <div class="po-md-12 po-lg-12">
+    <div class="po-row">
+      <div class="po-font-text-bold po-mt-2">Variação de preços por ano do códigos: {{mProduto}}</div>
+      <po-chart class="po-md-12 po-mt-2" [p-options]="options"
+        [p-categories]="categories" [p-series]="participation" [p-type]="participationByCountryInWorldExportsType">
+      </po-chart>
+    </div>
+  </div>

@@ -1,24 +1,23 @@
 import { Component, NgModule  } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
-import { PoChartType, PoChartOptions, PoChartSerie, PoDialogService,  PoTableModule, PoContainerModule, PoWidgetModule, PoChartModule, PoSelectOption, PoDisclaimerGroupModule, PoFieldModule, PoMultiselectOption} from '@po-ui/ng-components';
-import { PedidosService } from '../../_services/compras/pedidos/pedidos.service';
-import { FiltersService } from '../../_services/filters/filters.service';
+import { PoChartType, PoChartOptions, PoChartSerie, PoTableModule, PoContainerModule, PoWidgetModule, PoChartModule, PoSelectOption, PoDisclaimerGroupModule, PoFieldModule, PoMultiselectOption, PoDialogService} from '@po-ui/ng-components';
+import { DashboardService } from '../services';
 
 @Component({
-  selector: 'app-charts',
+  selector: 'app-dashboard',
   standalone: true,
   imports: [PoTableModule, PoContainerModule, PoWidgetModule, PoChartModule,PoDisclaimerGroupModule, PoFieldModule, FormsModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  templateUrl: './charts.component.html',
-  providers: [PoDialogService, PedidosService],
-  styleUrl: './charts.component.css'
-})
-export class ChartsComponent {
 
-  grupo: string = 'LI';
+schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [PoDialogService, DashboardService],
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.css'
+})
+export class DashboardComponent  {
+
+  grupo: string = 'AB';
+  groupName: string = 'ABASTECIMENTO'
   mes: string = this.mesAtual();
   ano: string = this.anoAtual()
   produto: string = 'MC40009135'
@@ -63,8 +62,7 @@ export class ChartsComponent {
   
   constructor(
     private poAlert: PoDialogService,
-    private pedidosService: PedidosService,
-    private filterService:FiltersService
+    private dashboardService: DashboardService,
   ) {}
 
   ngOnInit() {
@@ -82,7 +80,7 @@ export class ChartsComponent {
   }
   getGroups(){
     console.log(this.grupo)
-    this.pedidosService.getGroups().subscribe(
+    this.dashboardService.getGroups().subscribe(
       response => {
         this.grupos = response.objects;
         //console.log(this.pizzaItens)
@@ -102,7 +100,7 @@ export class ChartsComponent {
   }
   getProducts(){
     console.log(this.grupo)
-    this.pedidosService.getProducts(this.grupo).subscribe(
+    this.dashboardService.getProducts(this.grupo).subscribe(
       response => {
         this.produtos = response.product
         this.mProdutos = response.products
@@ -116,7 +114,7 @@ export class ChartsComponent {
   getPizza(){
 
     console.log(this.grupo)
-    this.pedidosService.getPizza(this.grupo, this.mes, this.ano).subscribe(
+    this.dashboardService.getPizza(this.grupo, this.mes, this.ano).subscribe(
       response => {
         this.pizzaItens = response.objects;
         //console.log(this.pizzaItens)
@@ -128,7 +126,7 @@ export class ChartsComponent {
   } 
   getTable(){
 
-    this.pedidosService.getTable(this.grupo, this.mes, this.ano).subscribe(
+    this.dashboardService.getTable(this.grupo, this.mes, this.ano).subscribe(
       response => {
         this.tableItens = response.objects;
         //console.log(this.tableItens)
@@ -140,7 +138,7 @@ export class ChartsComponent {
   }
   getCols(){
 
-    this.pedidosService.getCols(this.grupo, this.produto, this.ano).subscribe(
+    this.dashboardService.getCols(this.grupo, this.produto, this.ano).subscribe(
       response => {
         this.evolutionOfCoffeeAndSomeCompetitors = response.objects;
         //console.log(this.tableItens)
@@ -151,10 +149,11 @@ export class ChartsComponent {
     );
   }
   getLines(){
-    this.pedidosService.getLines(this.grupo, this.mProduto, this.ano).subscribe(
+    this.dashboardService.getLines(this.grupo, this.mProduto, this.ano).subscribe(
       response => {
         this.categories = response.categories[0]
         this.participation = response.participation;
+        console.log(response.participation)
 
       },
       error => {
@@ -163,7 +162,18 @@ export class ChartsComponent {
     );
   }
   changeTipo(event: any) {
-  
+    const selectedOption = this.grupos.find(option => option.value === event);
+    if (selectedOption) {
+      const originalLabel = selectedOption.label;
+      const hyphenIndex =originalLabel.indexOf('-')
+      if (hyphenIndex !== -1) {
+        const valueAfterHyphen = originalLabel.substring(hyphenIndex + 1);
+        this.groupName = valueAfterHyphen.trimStart(); 
+      } else {
+        console.log('O hífen não foi encontrado na string.');
+      }
+    }
+
     this.getPizza()
     this.getTable()
     this.getCols()

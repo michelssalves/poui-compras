@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class PedidosService {
+export class DashboardService {
 
   private apiUrl = 'http://vhwin1065:9023/rest/zWSPedidos/get_all/';
   private apiPizza = 'http://vhwin1065:9023/rest/zWSDash/get_max_purchases_pizza';
@@ -17,13 +17,6 @@ export class PedidosService {
 
   constructor(private http: HttpClient) { }
 
-
-  getData(): Observable<any> {
-    return this.http.get<any>(this.apiUrl);
-  }
-  postData(data: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, data);
-  }
   getGroups(): Observable<any> {
     return this.http.get<any>(this.apiGroups);
   }
@@ -48,6 +41,5 @@ export class PedidosService {
     const url = `${this.apiLines}?tipo=${tipo}&produtos=${produtos}&ano=${ano}`;
     return this.http.get<any>(url);
   }
-
 
 }
