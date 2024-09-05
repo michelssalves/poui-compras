@@ -17,7 +17,7 @@ Deixar o build assim
        "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/poui-compras",
+            "outputPath": "dist/suprimentos",
             "index": "src/index.html",
             "main": "src/main.ts",
 

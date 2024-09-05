@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { FormsModule, ReactiveFormsModule,  } from '@angular/forms';
-import { SidebarService } from './_services/sideBar/sidebar.service';
 import { filter } from 'rxjs/operators';
+import { AppService } from '../services';
 import {
   PoContainerModule, 
   PoWidgetModule, 
@@ -22,6 +22,7 @@ import {
 } from '@po-ui/ng-components';
 
 
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -35,17 +36,12 @@ import {
     FormsModule,
     ReactiveFormsModule,
   
-  
   ],
-  providers: [SidebarService],
+  providers: [AppService],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-
-  // public readonly breadcrumb: PoBreadcrumb = {
-  //   items: [{ label: 'Home', link: '/' }, { label: 'Dashboard' }]
-  //  };
 
    public readonly actions: Array<PoPageAction> = [
     
@@ -82,7 +78,7 @@ export class AppComponent {
    
   ];
 
-  constructor(public SidebarService: SidebarService, private router: Router, private route: ActivatedRoute) {}
+  constructor(public appService: AppService, private router: Router, private route: ActivatedRoute) {}
   printMenuAction(menu: PoMenuItem) {
     this.menuItemSelected = menu.label;
   }

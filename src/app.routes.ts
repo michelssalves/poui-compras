@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent, MedicoesComponent, PedidosComponent } from './compras';
+import { DashboardComponent, MedicoesComponent, PedidosComponent } from './app/compras';
+
 
 export const routes: Routes = [
     {

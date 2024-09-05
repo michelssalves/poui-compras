@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "poui-compras": {
+    "suprimentos": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/poui-compras",
+            "outputPath": "dist/suprimentos",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -62,10 +62,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "poui-compras:build:production"
+              "buildTarget": "suprimentos:build:production"
             },
             "development": {
-              "buildTarget": "poui-compras:build:development"
+              "buildTarget": "suprimentos:build:development"
             }
           },
           "defaultConfiguration": "development"
