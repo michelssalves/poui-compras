@@ -16,11 +16,13 @@ schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class DashboardComponent  {
 
+  maxSelection = 5;
   grupo: string = 'AB';
   groupName: string = 'ABASTECIMENTO'
   mes: string = this.mesAtual();
   ano: string = this.anoAtual()
   produto: string = 'MC40009135'
+
   mProduto: string[] = [];
  
   consumptionPerCapitaType: PoChartType = PoChartType.Bar;
@@ -201,14 +203,19 @@ export class DashboardComponent  {
     this.getCols()
 
   }
+
   changeProdutos(event: any) {
 
-    this.categories = []
-    this.participation = []
-
-    this.getLines()
-  
-
+    if(!this.isMaxSelected()){  
+      this.categories = []
+      this.participation = []
+      this.getLines()
+    }else{
+      alert('Limite Maximo Atingido, não será aparesentado no grafico')
+    }
+   }
+  isMaxSelected(): boolean {
+    return this.mProduto.length >= this.maxSelection;
   }
   consumptionPerCapitaOptions: PoChartOptions = {
     axis: {
