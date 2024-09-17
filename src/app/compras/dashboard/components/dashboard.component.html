@@ -40,7 +40,6 @@
     <po-multiselect (ngModel)="mProduto" (p-change)="changeProdutos($event)" (ngModelChange)="mProduto = $event"
       class="po-md-3" name="multiselect" p-label="Comparar Produtos" [p-options]="mProdutos" p-hide-select-all
       >Selecione</po-multiselect>
-      <span *ngIf="mProduto.length >= 2" class="error">Você só pode selecionar até 5 produtos.</span>
   </div>
   <div class="po-md-12 po-lg-12">
     <div class="po-row">

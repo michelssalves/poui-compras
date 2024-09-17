@@ -11,89 +11,51 @@ export class PedidosService {
 
   private apiUrl = 'http://vhwin1065:9023/rest/zWSPedidos/get_all_po';
 
+  // pedidos: Array<any> = [      {
+  //   Item: 11234,
+  //   initials: 'BR',
+  //   country: 'Brazil',
+  //   value: 1000.0,
+  //   date: '2018-10-09',
+  //   returnDate: '2018-11-01',
+  //   class: 'Economic',
+  //   onBoardService: false,
+  //   destination: 'Rio de Janeiro',
+  //   airline: 'Azul',
+  //   status: 'available',
+  //   region: 'Latin America',
+  // },]
+
+  pedidos: Array<any>
+
   constructor(private http: HttpClient) { }
   getColumns(): Array<PoTableColumn> {
-    // const airfareDetail: PoTableDetail = {
-    //   columns: [
-    //     { property: 'package' },
-    //     { property: 'tour' },
-    //     { property: 'time', label: 'Departure time', type: 'time', format: 'HH:mm' },
-    //     { property: 'distance', label: 'Distance (Miles)', type: 'number', format: '1.0-5' }
-    //   ],
-    //   typeHeader: 'top'
-    // };
-
     return [
-      {
-        property: 'Item',
-        type: 'label',
-        labels: [
-          // { value: 'available', color: 'color-11', label: 'Available' },
-          // { value: 'reserved', color: 'color-08', label: 'Reserved' },
-          // { value: 'closed', color: 'color-07', label: 'Closed' }
-        ]
-      },
+      { property: 'Item' },
       { property: 'Codigo' },
-      { property: 'Descrição' },
-      {
-        property: 'UN1A',
-        type: 'subtitle',
-        width: '180px',
-        subtitles: [
-          // { value: 'Alps', color: 'color-01', label: 'Alps', content: 'AL' },
-          // { value: 'Australasia', color: 'color-02', label: 'Australasia', content: 'AU' },
-          // { value: 'British Isle', color: 'color-03', label: 'British Isle', content: 'BI' },
-          // { value: 'Caucasus', color: 'color-04', label: 'Caucasus', content: 'CA' },
-          // { value: 'Danube', color: 'color-05', label: 'Danube', content: 'DA' },
-          // { value: 'East Asia', color: 'color-06', label: 'East Asia', content: 'EA' },
-          // { value: 'Latin America', color: 'color-07', label: 'Latin America', content: 'LA' },
-          // { value: 'Mediterranean', color: 'color-08', label: 'Mediterranean', content: 'ME' },
-          // { value: 'Nordics', color: 'color-09', label: 'Nordics', content: 'NO' },
-          // { value: 'North America', color: 'color-10', label: 'North America', content: 'NA' },
-          // { value: 'Southern Africa', color: 'color-11', label: 'Southern Africa', content: 'SA' },
-          // { value: 'Western Africa', color: 'color-12', label: 'Western Africa', content: 'WA' }
-        ]
-      },
-      { property: 'UN2A' },
-      { property: 'QTDE1A' },
-      { property: 'QTDE2A' },
-      { property: 'Preço'},
-      { property: 'Total'},
-      { property: 'Cod' },
-      { property: 'Condição'},
+      { property: 'Produto' },
+      { property: 'Un1A' },
+      { property: 'Un2A' },
+      { property: 'Qtde1A' },
+      { property: 'Qtde2A' },
+      { property: 'Preco'},
+      { property: 'R$'},
+      { property: 'Pagamento' },
+      { property: 'Condicao'},
       { property: 'Fornecedor' },
       { property: 'Loja' },
       { property: 'rzSocial' },
-      { property: 'Data' },
+      { property: 'Data' }
 
     ];
+  }  
+  getPedidos(data1: string, data2: string): Observable<any> {
+    const url = `${this.apiUrl}?data1=${data1}&data2=${data2}`;
+    return this.http.get<any>(url);  // Retorna o Observable
   }
 
-  items: any = [];
-
-  // // Método para buscar os pedidos
-  getPedidos(data1: string, data2: string) {
-    const url = `${this.apiUrl}?data1=${data1}&data2=${data2}`;
-
-     this.http.get<any>(url).subscribe(
-      response => {
-        this.items = [response.objects]
-        
-      },
-      error => {
-        console.error('Erro ao obter dados:', error);
-      }
-    );
-
-
-}
-
-TestBed(){
-  this.getPedidos('20240906','20240906')
-  return this.items
-}  
   postData(data: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, data);
   }
-  
+
 }

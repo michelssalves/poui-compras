@@ -74,8 +74,8 @@ export class PedidosComponent implements OnInit {
   columns: Array<PoTableColumn>;
   columnsDefault: Array<PoTableColumn>;
   detail: any;
-  pedidos: any = [];
-  items: Array<any> = [];
+  pedidos: any 
+  items: Array<any>;
   total: number = 0;
   totalExpanded = 0;
   initialColumns: Array<any>;
@@ -88,12 +88,42 @@ export class PedidosComponent implements OnInit {
     
   }
 
-  ngOnInit() {
+  getItems() {
+    this.pedidosService.getPedidos('20240906', '20240906').subscribe(
+      response => {
+       this.items = response.objects;
+       //this.items = [{"item": "0001","codigo": "ST00005124","produto": "…ocial"": "Craft Multimodal Lt","data": "06/09/24"}]
+       console.log(this.items)
+       
+      },
+      error => {
+        console.error('Erro ao buscar dados', error);
+      }
+    );
+  }
+
+  ngOnInit(): void {
 
     //this.pedidos = this.pedidosService.getPedidos(this.data1, this.data2)
     this.columns = this.pedidosService.getColumns();
-     this.pedidos = this.pedidosService.TestBed()
-    console.log(this.pedidos)
+    this.getItems(); 
+
+   // console.log( this.items)
+    // this.pedidosService.getPed().subscribe(data => {
+    //   this.pedidos = data[0];
+    //   console.log(this.pedidos)
+    // });
+    // this.pedidosService.getPed('20240906','20240906').subscribe({
+    //   next: (response) => {
+  
+    //       this.pedidos = response[0];
+    //       console.log('Dados recebidos:', this.pedidos);
+     
+    //   },
+    //   error: (error) => {
+    //     console.error('Erro ao obter dados:', error);
+    //   }
+    // });
   }                                               
 
   gAfterViewInit(): void {
@@ -167,7 +197,7 @@ export class PedidosComponent implements OnInit {
   }
 
   collapseAll() {
-    this.pedidos.forEach((item, index) => {
+    this.items.forEach((item, index) => {
       if (item.detail) {
         this.onCollapseDetail();
         this.poTable.collapse(index);
@@ -182,7 +212,7 @@ export class PedidosComponent implements OnInit {
   }
 
   deleteItems(items: Array<any>) {
-    this.pedidos = items;
+    this.items = items;
   }
 
   details(item) {
@@ -203,7 +233,7 @@ export class PedidosComponent implements OnInit {
 
   expandAll() {
     this.totalExpanded = 0;
-    this.pedidos.forEach((item, index) => {
+    this.items.forEach((item, index) => {
       if (item.detail) {
         this.onExpandDetail();
         this.poTable.expand(index);
