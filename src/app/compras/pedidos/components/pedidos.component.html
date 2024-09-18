@@ -1,49 +1,24 @@
-<po-table
-  [p-height]="400"
-  [p-hide-batch-actions]="false"
-  [p-hide-table-search]="false"
-  [p-selectable]="true"
-  [p-sort]="true"
-  [p-striped]="true"
+<po-page-dynamic-table
+  #dynamicTable
+  [p-auto-router]="true"
+  [p-concat-filters]="true"
+  [p-keep-filters]="true"
+  p-title="Users"
   [p-actions]="actions"
-  [p-columns]="columns"
-  [p-items]="items"
-  [p-max-columns]="7"
-  (p-collapsed)="onCollapseDetail()"
-  (p-expanded)="onExpandDetail()"
-  (p-selected)="sumTotal($event)"
-  (p-unselected)="decreaseTotal($event)"
-  (p-change-visible-columns)="changeColumnVisible($event)"
-  (p-restore-column-manager)="restoreColumn()"
-  (p-delete-items)="deleteItems($event)"
+  [p-actions-right]="actionsRight"
+  [p-page-custom-actions]="pageCustomActions"
+  [p-table-custom-actions]="tableCustomActions"
+  [p-fields]="fields"
+  [p-service-api]="serviceApi"
+  [p-quick-search-width]="quickSearchWidth"
+  [p-load]="onLoad.bind(this)"
 >
-</po-table>
+</po-page-dynamic-table>
 
-<po-info
-  class="po-md-6 po-mb-sm-2 po-mb-md-2 po-lb-lg-2"
-  p-label="Total Value"
-  [p-orientation]=""
-  p-value="{{ total | currency: 'USD' }}"
->
-</po-info>
+<po-modal #userDetailModal p-title="User Detail">
+  <po-dynamic-view [p-fields]="detailFields" [p-value]="detailedUser"> </po-dynamic-view>
+</po-modal>
 
-<po-info
-  class="po-md-6 po-mb-sm-2 po-mb-md-2 po-lb-lg-2"
-  p-label="Expanded Itens"
-  p-value="totalExpanded">
-</po-info>
-
-<div class="po-row">
-  <po-button class="po-md-3" p-icon="ph ph-shopping-cart-simple" p-label="Add items to cart" (p-click)="addToCart()">
-  </po-button>
-  <po-button class="po-md-3" p-label="Expand all detail" (p-click)="expandAll()"> </po-button>
-  <po-button class="po-md-3" p-label="Collapse all detail" (p-click)="collapseAll()"> </po-button>
-</div>
-
-<po-modal p-click-out="true" p-size="sm" p-title="{{ detail?.destination }} - {{ detail?.country }}">
-  <po-info class="po-sm-6" p-label="Airline" [p-value]="detail?.airline"> </po-info>
-
-  <po-info class="po-sm-2" p-label="Initials" [p-value]="detail?.initials"> </po-info>
-
-  <po-info class="po-sm-4" p-label="Class" [p-value]="detail?.class"> </po-info>
+<po-modal #dependentsModal p-title="Dependents">
+  <po-table [p-items]="dependents" [p-hide-table-search]="false"> </po-table>
 </po-modal>

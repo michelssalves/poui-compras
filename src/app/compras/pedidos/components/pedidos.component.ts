@@ -1,40 +1,26 @@
-import { 
-  PoContainerModule, 
-  PoWidgetModule, 
-  PoPageModule, 
-  PoModalModule, 
-  PoFieldModule, 
-  PoDynamicModule,
-  PoTableModule, 
-  PoModalAction, 
-  PoNotificationService, 
-  PoModalComponent, 
-  PoPageAction,
-  PoTableColumn, 
-  PoBreadcrumb,
-  PoTableColumnSort,
-  PoTableColumnLabel,
-  PoDialogService,
-  PoTableComponent,
-  PoTableAction,
-  PoInfoModule,
-  PoButtonModule 
+import { Component, OnInit, ViewChild } from '@angular/core';
 
-} from '@po-ui/ng-components';
-
-import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { AfterContentChecked, Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
-import { NgForm, NgModel } from '@angular/forms';
+import { PoBreadcrumb, PoButtonModule, PoContainerModule, PoDynamicModule, PoDynamicViewField, PoFieldModule, PoInfoModule, PoModalComponent, PoModalModule, PoPageModule, PoTableModule, PoWidgetModule } from '@po-ui/ng-components';
+import {
+  PoPageDynamicTableActions,
+  PoPageDynamicTableCustomAction,
+  PoPageDynamicTableCustomTableAction,
+  PoPageDynamicTableOptions,
+  PoPageDynamicDetailModule,
+  PoPageDynamicEditModule,
+  PoPageDynamicDetailField,
+  PoPageDynamicDetailActions,
+  PoPageDynamicTableModule  
+} from '@po-ui/ng-templates';
 import { PedidosService } from '../services';
-import { SamplePoTableComponentStatus } from '../shared/enum';
-
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-pedidos',
   standalone: true,
+ 
   imports: [
-  PoTableModule, 
+    PoTableModule, 
     CommonModule,
     PoContainerModule, 
     PoPageModule,
@@ -44,252 +30,221 @@ import { SamplePoTableComponentStatus } from '../shared/enum';
     PoFieldModule,
     PoDynamicModule,
     PoTableModule,
-  PoInfoModule,
-  PoButtonModule
+    PoInfoModule,
+    PoButtonModule,
+    PoPageDynamicDetailModule,
+    PoPageDynamicEditModule,
+    PoPageDynamicTableModule
 
-  
-  ],
+    ],
   templateUrl: './pedidos.component.html',
-  styleUrl: './pedidos.component.css',
-  providers: [PoDialogService]
+  providers: [PedidosService]
 })
 export class PedidosComponent implements OnInit {
+  
+  @ViewChild('userDetailModal') userDetailModal!: PoModalComponent;
+  @ViewChild('dependentsModal') dependentsModal!: PoModalComponent;
 
-  @ViewChild(PoModalComponent, { static: true }) poModal: PoModalComponent;
-  @ViewChild(PoTableComponent, { static: true }) poTable: PoTableComponent;
+  //readonly serviceApi = 'https://po-sample-api.onrender.com/v1/people';
 
+  serviceApi = 'http://vhwin1065:9023/rest/zWSPedidos/get_all_po?data1=20240906&data2=20240906';
 
- data1: string = '20240906'
- data2: string = '20240906'
- actions: Array<PoTableAction> = [
-  {
-    action: this.discount.bind(this),
-    icon: 'ph ph-currency-circle-dollar',
-    label: 'Apply Discount',
-    disabled: this.validateDiscount.bind(this)
-  },
-  { action: this.details.bind(this), icon: 'ph ph-info', label: 'Details' },
-  { action: this.remove.bind(this), icon: 'po-icon ph ph-trash', label: 'Remove' }
-];
-  columns: Array<PoTableColumn>;
-  columnsDefault: Array<PoTableColumn>;
-  detail: any;
-  pedidos: any 
-  items: Array<any>;
-  total: number = 0;
-  totalExpanded = 0;
-  initialColumns: Array<any>;
- constructor(
-  private pedidosService: PedidosService,
-  //private sampleAirfare: SamplePoTableAirfareService,
-  private poNotification: PoNotificationService,
-  private poDialog: PoDialogService
- ) {
-    
-  }
+  actionsRight = false;
+  detailedUser: any;
+  dependents: any;
+  quickSearchWidth: number = 3;
+  fixedFilter = false;
 
-  getItems() {
-    this.pedidosService.getPedidos('20240906', '20240906').subscribe(
-      response => {
-       this.items = response.objects;
-       //this.items = [{"item": "0001","codigo": "ST00005124","produto": "…ocial"": "Craft Multimodal Lt","data": "06/09/24"}]
-       console.log(this.items)
-       
-      },
-      error => {
-        console.error('Erro ao buscar dados', error);
-      }
-    );
-  }
+  readonly actions: PoPageDynamicTableActions = {
+    new: '/documentation/po-page-dynamic-edit',
+    remove: true,
+    removeAll: true
+  };
+
+  readonly cityOptions: Array<object> = [
+    { value: 'São Paulo', label: 'São Paulo' },
+    { value: 'Joinville', label: 'Joinville' },
+    { value: 'São Bento', label: 'São Bento' },
+    { value: 'Araquari', label: 'Araquari' },
+    { value: 'Campinas', label: 'Campinas' },
+    { value: 'Osasco', label: 'Osasco' }
+  ];
+
+  fields: Array<any> = [
+    { property: 'Id', key: true, visible: false, filter: true },
+    { property: 'Pedido', label: 'Pedido', filter: true, gridColumns: 6 },
+    { property: 'Item', label: 'Item', filter: true, gridColumns: 6, duplicate: true, sortable: false },
+   // { property: 'search', filter: true, visible: false },
+    // {
+    //   property: 'birthdate',
+    //   label: 'Birthdate',
+    //   type: 'date',
+    //   gridColumns: 6,
+    //   visible: false,
+    //   allowColumnsManager: true
+    // },
+    { property: 'Codigo', label: 'Codigo', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
+    { property: 'Produto', label: 'Produto', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
+    { property: 'Un1A', label: 'Un1A', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
+    { property: 'Un2A', label: 'Un2A', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
+    { property: 'Qtde1A', label: 'Qtde1A', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
+    { property: 'Qtde2A', label: 'Qtde2A', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
+    { property: 'Preco', label: 'Preco', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
+    { property: 'R$', label: 'R$', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
+    { property: 'Pagamento', label: 'Pagamento', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
+    { property: 'Condicao', label: 'Condicao', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
+    { property: 'Fornecedor', label: 'Fornecedor', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
+    { property: 'Loja', label: 'Loja', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
+    { property: 'rzSocial', label: 'rzSocial', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
+    { property: 'Data', label: 'Data', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 }
+  ];
+
+  readonly detailFields: Array<PoDynamicViewField> = [
+    { property: 'status', tag: true, gridLgColumns: 4, divider: 'Personal Data' },
+    { property: 'name', gridLgColumns: 4 },
+    { property: 'nickname', label: 'User name', gridLgColumns: 4 },
+    { property: 'email', gridLgColumns: 4 },
+    { property: 'birthdate', gridLgColumns: 4, type: 'date' },
+    { property: 'genre', gridLgColumns: 4, gridSmColumns: 6 },
+    { property: 'cityName', label: 'City', divider: 'Address' },
+    { property: 'state' },
+    { property: 'country' }
+  ];
+
+  pageCustomActions: Array<PoPageDynamicTableCustomAction> = [
+    {
+      label: 'Actions Right',
+      action: this.onClickActionsSide.bind(this),
+      visible: this.isVisibleActionsRight.bind(this),
+      icon: 'ph ph-caret-right'
+    },
+    {
+      label: 'Actions Left',
+      action: this.onClickActionsSide.bind(this),
+      visible: this.isVisibleActionsLeft.bind(this),
+      icon: 'ph ph-caret-left'
+    },
+    {
+      label: 'Fixed Filter',
+      action: this.onClickFixedFilter.bind(this),
+      visible: this.isVisibleFixedFilter.bind(this),
+      icon: 'ph ph-lock'
+    },
+    {
+      label: 'Not Fixed Filter',
+      action: this.onClickFixedFilter.bind(this),
+      visible: this.isVisibleNotFixedFilter.bind(this),
+      icon: 'ph ph-lock-open'
+    },
+    { label: 'Print', action: this.printPage.bind(this), icon: 'ph ph-printer' }
+  ];
+
+  tableCustomActions: Array<PoPageDynamicTableCustomTableAction> = [
+    {
+      label: 'Details',
+      action: this.onClickUserDetail.bind(this),
+      disabled: this.isUserInactive.bind(this),
+      icon: 'ph ph-user'
+    },
+    {
+      label: 'Dependents',
+      action: this.onClickDependents.bind(this),
+      visible: this.hasDependents.bind(this),
+      icon: 'ph ph-user'
+    },
+  ];
+
+  constructor(private usersService: PedidosService) {}
 
   ngOnInit(): void {
-
-    //this.pedidos = this.pedidosService.getPedidos(this.data1, this.data2)
-    this.columns = this.pedidosService.getColumns();
-    this.getItems(); 
-
-   // console.log( this.items)
-    // this.pedidosService.getPed().subscribe(data => {
-    //   this.pedidos = data[0];
-    //   console.log(this.pedidos)
-    // });
-    // this.pedidosService.getPed('20240906','20240906').subscribe({
-    //   next: (response) => {
-  
-    //       this.pedidos = response[0];
-    //       console.log('Dados recebidos:', this.pedidos);
-     
-    //   },
-    //   error: (error) => {
-    //     console.error('Erro ao obter dados:', error);
-    //   }
-    // });
-  }                                               
-
-  gAfterViewInit(): void {
-    this.columnsDefault = this.columns;
-    if (localStorage.getItem('initial-columns')) {
-      this.initialColumns = localStorage.getItem('initial-columns').split(',');
-
-      const result = this.columns.map(el => ({
-        ...el,
-        visible: this.initialColumns.includes(el.property)
-      }));
-
-      const newColumn = [...result];
-      newColumn.sort(this.sortFunction);
-      this.columns = newColumn;
-    }
-  }
-
-  sortFunction(a, b) {
-    const teste = localStorage.getItem('initial-columns').split(',');
-    const indexA = teste.indexOf(a['property']);
-    const indexB = teste.indexOf(b['property']);
-    
-    if (indexA === -1) {
-      return 1;  // a goes after b if it's not found
-    }
-    if (indexB === -1) {
-      return -1;  // a goes before b if b is not found
-    }
-    if (indexA < indexB) {
-      return -1;  // a comes before b
-    } else if (indexA > indexB) {
-      return 1;  // a comes after b
-    }
-    
-    return 0;  // a and b are in the same position
-  }
-  
-
-  addToCart() {
-    const selectedItems = this.poTable.getSelectedRows();
-
-    if (selectedItems.length > 0) {
-      this.poDialog.confirm({
-        title: 'Add to cart',
-        message: `Would you like to add ${selectedItems.length} items to cart?`,
-        confirm: () => this.confirmItems(selectedItems),
-        cancel: () => {}
-      });
-    }
-  }
-
-  confirmItems(selectedItems: Array<any>) {
-    selectedItems.forEach(item => {
-      switch (item.status) {
-        case 'available':
-          this.poNotification.success(`${this.getDescription(item)} added succesfully`);
-          break;
-        case 'reserved':
-          this.poNotification.warning(
-            `${this.getDescription(item)} added succesfully, verify your e-mail to complete reservation`
-          );
-          break;
-        case 'closed':
-          this.poNotification.error(`${this.getDescription(item)} is closed and not available anymore`);
-          break;
+    this.pageCustomActions = [
+      ...this.pageCustomActions,
+      {
+        label: 'Download .csv',
+        action: this.usersService.downloadCsv.bind(this.usersService, this.serviceApi),
+        icon: 'ph ph-download-simple'
       }
-    });
+    ];
+  }
+ //COLUNAS
+  onLoad(): PoPageDynamicTableOptions {
+    return {
+      // fields: [
+      //   { property: 'Id', label: 'Id', key: true, visible: true, filter: true },
+      //   { property: 'Pedido', label: 'Pedido', filter: true, gridColumns: 6 },
+      //   { property: 'Item', label: 'Item', filter: true, gridColumns: 6, duplicate: true },
 
-    this.poTable.unselectRows();
+      // ]
+    };
   }
 
-  collapseAll() {
-    this.items.forEach((item, index) => {
-      if (item.detail) {
-        this.onCollapseDetail();
-        this.poTable.collapse(index);
-      }
-    });
+  isUserInactive(person: any) {
+    return person.status === 'inactive';
   }
 
-  decreaseTotal(row: any) {
-    if (row.value) {
-      this.total -= row.value;
+  hasDependents(person: any) {
+    return person.dependents.length !== 0;
+  }
+
+  printPage() {
+    window.print();
+  }
+
+  private onClickUserDetail(user: any) {
+    this.detailedUser = user;
+
+    this.userDetailModal.open();
+  }
+
+  private onClickDependents(user: any) {
+    this.dependents = user.dependents;
+
+    this.dependentsModal.open();
+  }
+
+  private onClickActionsSide(value: any) {
+    this.actionsRight = !this.actionsRight;
+  }
+
+  private isVisibleActionsRight() {
+    return !this.actionsRight;
+  }
+
+  private isVisibleActionsLeft() {
+    return this.actionsRight;
+  }
+
+  private onClickFixedFilter() {
+    this.fixedFilter = !this.fixedFilter;
+    const fieldsDefault = [...this.fields];
+
+    if (this.fixedFilter) {
+      fieldsDefault
+        .filter(field => field.property === 'search')
+        .map(field => {
+          field.initValue = 'Joinville';
+          field.filter = true;
+          field.fixed = true;
+        });
+
+      this.fields = fieldsDefault;
+    } else {
+      fieldsDefault
+        .filter(field => field.property === 'search')
+        .map(field => {
+          field.initValue = 'São Paulo';
+          field.fixed = false;
+        });
+
+      this.fields = fieldsDefault;
     }
   }
 
-  deleteItems(items: Array<any>) {
-    this.items = items;
+  private isVisibleFixedFilter() {
+    return !this.fixedFilter;
   }
 
-  details(item) {
-    this.detail = item;
-    this.poModal.open();
+  private isVisibleNotFixedFilter() {
+    return this.fixedFilter;
   }
-
-  remove(item: { [key: string]: any }) {
-    this.poTable.removeItem(item);
-  }
-
-  discount(item) {
-    if (!item.disableDiscount) {
-      const updatedItem = { ...item, value: item.value - item.value * 0.2, disableDiscount: true };
-      this.poTable.updateItem(item, updatedItem);
-    }
-  }
-
-  expandAll() {
-    this.totalExpanded = 0;
-    this.items.forEach((item, index) => {
-      if (item.detail) {
-        this.onExpandDetail();
-        this.poTable.expand(index);
-      }
-    });
-  }
-
-  onCollapseDetail() {
-    this.totalExpanded -= 1;
-    this.totalExpanded = this.totalExpanded < 0 ? 0 : this.totalExpanded;
-  }
-
-  onExpandDetail() {
-    this.totalExpanded += 1;
-  }
-
-  sumTotal(row: any) {
-    if (row.value) {
-      this.total += row.value;
-    }
-  }
-
-  restoreColumn() {
-    this.columns = this.columnsDefault;
-  }
-
-  changeColumnVisible(event) {
-    localStorage.setItem('initial-columns', event);
-  }
-
-  private getDescription(item: any) {
-    return `Airfare to ${item.destination} - ${item.initials}`;
-  }
-
-  private validateDiscount(item) {
-    return item.disableDiscount;
-  }
-  
-  // columns = [
-  //   { property: 'order', label: 'Order' },
-  //   { property: 'describe', label: 'Description' },
-  //   { property: 'amount', label: 'Amount' },
-  //   { property: 'price', label: 'Price' },
-  //   { property: 'um', label: 'UM' },
-  //   { property: 'provider', label: 'Provider' }
-  // ];
-
-
-  // columns = [
-  //   { property: 'medicao', label: 'Medição' },
-  //   { property: 'contrato', label: 'Nº Contrato' },
-  //   { property: 'revisao', label: 'Nº Revisao' },
-  //   { property: 'competencia', label: 'Competencia' },
-    //  { property: 'descricao', label: 'Descricao' }
-  //   { property: 'valor', label: 'Valor' },
-
-  // ];
-
 }
