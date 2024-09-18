@@ -20,7 +20,17 @@ export const routes: Routes = [
     },
     {
         title: 'Pedidos',
-        path: 'pedidos/listar',
+        path: 'pedidos/new',
+        component: PedidosComponent
+    },
+    {
+        title: 'Pedidos',
+        path: 'pedidos/list',
+        component: PedidosComponent
+    },
+    {
+        title: 'Pedidos',
+        path: 'pedidos/:id',
         component: PedidosComponent
     },
     {

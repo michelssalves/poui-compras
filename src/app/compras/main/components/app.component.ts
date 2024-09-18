@@ -63,7 +63,7 @@ export class AppComponent {
       icon: 'po-icon po-icon-finance-secure',
       shortLabel: 'Pedidos',
       subItems: [
-        { label: 'Listar', link: 'pedidos/listar' },
+        { label: 'Listar', link: 'pedidos/list' },
       ]
     },
     {

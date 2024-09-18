@@ -45,8 +45,6 @@ export class PedidosComponent implements OnInit {
   @ViewChild('userDetailModal') userDetailModal!: PoModalComponent;
   @ViewChild('dependentsModal') dependentsModal!: PoModalComponent;
 
-  //readonly serviceApi = 'https://po-sample-api.onrender.com/v1/people';
-
   serviceApi = 'http://vhwin1065:9023/rest/zWSPedidos/get_all_po?data1=20240906&data2=20240906';
 
   actionsRight = false;
@@ -54,13 +52,19 @@ export class PedidosComponent implements OnInit {
   dependents: any;
   quickSearchWidth: number = 3;
   fixedFilter = false;
+  id = 111
 
   readonly actions: PoPageDynamicTableActions = {
-    new: '/documentation/po-page-dynamic-edit',
-    remove: true,
-    removeAll: true
+    new: 'pedidos/new',
+    edit: `pedidos/edit?${this.id}`,
+    remove: this.teste(),
+    removeAll: true,
+    
   };
-
+  teste(){
+    console.log('oi')
+    return true
+  }
   readonly cityOptions: Array<object> = [
     { value: 'São Paulo', label: 'São Paulo' },
     { value: 'Joinville', label: 'Joinville' },
@@ -71,32 +75,23 @@ export class PedidosComponent implements OnInit {
   ];
 
   fields: Array<any> = [
-    { property: 'Id', key: true, visible: false, filter: true },
-    { property: 'Pedido', label: 'Pedido', filter: true, gridColumns: 6 },
-    { property: 'Item', label: 'Item', filter: true, gridColumns: 6, duplicate: true, sortable: false },
-   // { property: 'search', filter: true, visible: false },
-    // {
-    //   property: 'birthdate',
-    //   label: 'Birthdate',
-    //   type: 'date',
-    //   gridColumns: 6,
-    //   visible: false,
-    //   allowColumnsManager: true
-    // },
-    { property: 'Codigo', label: 'Codigo', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
-    { property: 'Produto', label: 'Produto', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
-    { property: 'Un1A', label: 'Un1A', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
-    { property: 'Un2A', label: 'Un2A', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
-    { property: 'Qtde1A', label: 'Qtde1A', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
-    { property: 'Qtde2A', label: 'Qtde2A', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
-    { property: 'Preco', label: 'Preco', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
-    { property: 'R$', label: 'R$', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
-    { property: 'Pagamento', label: 'Pagamento', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
-    { property: 'Condicao', label: 'Condicao', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
-    { property: 'Fornecedor', label: 'Fornecedor', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
-    { property: 'Loja', label: 'Loja', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
-    { property: 'rzSocial', label: 'rzSocial', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 },
-    { property: 'Data', label: 'Data', filter: true, duplicate: true, options: this.cityOptions, gridColumns: 12 }
+    { property: 'Id', key: true, visible: false},
+    { property: 'Pedido', label: 'Pedido'},
+    { property: 'Item', label: 'Item'},
+    { property: 'Codigo', label: 'Codigo'},
+    { property: 'Produto', label: 'Produto' },
+    { property: 'Un1A', label: 'Un1A'},
+    { property: 'Un2A', label: 'Un2A'},
+    { property: 'Qtde1A', label: 'Qtde1A'},
+    { property: 'Qtde2A', label: 'Qtde2A' },
+    { property: 'Preco', label: 'Preco'},
+    { property: 'R$', label: 'R$' },
+    { property: 'Pagamento', label: 'Pagamento'},
+    { property: 'Condicao', label: 'Condicao'},
+    { property: 'Fornecedor', label: 'Fornecedor'},
+    { property: 'Loja', label: 'Loja'},
+    { property: 'rzSocial', label: 'rzSocial'},
+    { property: 'Data', label: 'Data'}
   ];
 
   readonly detailFields: Array<PoDynamicViewField> = [
@@ -140,18 +135,18 @@ export class PedidosComponent implements OnInit {
   ];
 
   tableCustomActions: Array<PoPageDynamicTableCustomTableAction> = [
-    {
-      label: 'Details',
-      action: this.onClickUserDetail.bind(this),
-      disabled: this.isUserInactive.bind(this),
-      icon: 'ph ph-user'
-    },
-    {
-      label: 'Dependents',
-      action: this.onClickDependents.bind(this),
-      visible: this.hasDependents.bind(this),
-      icon: 'ph ph-user'
-    },
+    // {
+    //   label: 'Editar',
+    //   action: this.onClickUserDetail.bind(this),
+    //   disabled: this.isUserInactive.bind(this),
+    //   icon: 'ph ph-user'
+    // },
+    // {
+    //   label: 'Anexo',
+    //   action: this.onClickDependents.bind(this),
+    //   visible: this.hasDependents.bind(this),
+    //   icon: 'ph ph-user'
+    // },
   ];
 
   constructor(private usersService: PedidosService) {}
@@ -169,12 +164,7 @@ export class PedidosComponent implements OnInit {
  //COLUNAS
   onLoad(): PoPageDynamicTableOptions {
     return {
-      // fields: [
-      //   { property: 'Id', label: 'Id', key: true, visible: true, filter: true },
-      //   { property: 'Pedido', label: 'Pedido', filter: true, gridColumns: 6 },
-      //   { property: 'Item', label: 'Item', filter: true, gridColumns: 6, duplicate: true },
 
-      // ]
     };
   }
 
@@ -183,7 +173,8 @@ export class PedidosComponent implements OnInit {
   }
 
   hasDependents(person: any) {
-    return person.dependents.length !== 0;
+    return true
+   // return person.dependents.length !== 0;
   }
 
   printPage() {
@@ -197,7 +188,8 @@ export class PedidosComponent implements OnInit {
   }
 
   private onClickDependents(user: any) {
-    this.dependents = user.dependents;
+    console.log(user)
+    this.dependents = user.Id;
 
     this.dependentsModal.open();
   }
