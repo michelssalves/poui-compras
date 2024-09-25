@@ -33,3 +33,8 @@ ul {
      font-weight: bold;
      color: #507085;
 }
+
+.po-page-content {
+     padding: 0px 40px 0px 0px;
+     margin-right: 15px;
+ }

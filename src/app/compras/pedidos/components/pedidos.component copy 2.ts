@@ -55,6 +55,7 @@ export class PedidosComponent implements OnInit {
 
   readonly actions: PoPageDynamicTableActions = {
     new: 'pedidos/new',
+    edit: `pedidos/edit?${user.Id}`,
     remove: this.teste(),
     removeAll: true,
     
@@ -73,45 +74,35 @@ export class PedidosComponent implements OnInit {
   ];
 
   fields: Array<any> = [
-    { property: 'Id', key: true, visible: false, allowColumnsManager: true},
+    { property: 'Id', key: true, visible: false},
     { property: 'Pedido', label: 'Pedido'},
-    { property: 'Item', label: 'Item', visible: false, allowColumnsManager: true},
-    { property: 'Codigo', label: 'Codigo', visible: false, allowColumnsManager: true},
-    { property: 'rzSocial', label: 'Fornecedor'},
+    { property: 'Item', label: 'Item'},
+    { property: 'Codigo', label: 'Codigo'},
     { property: 'Produto', label: 'Produto' },
-    { property: 'Qtde1A', label: 'Qtde'},
-    { property: 'Qtde2A', label: 'UN2A', visible: false, allowColumnsManager: true },
-    { property: 'Un1A', label: 'UN'},
-    { property: 'Un2A', label: 'UN2A', visible: false, allowColumnsManager: true},
+    { property: 'Un1A', label: 'Un1A'},
+    { property: 'Un2A', label: 'Un2A'},
+    { property: 'Qtde1A', label: 'Qtde1A'},
+    { property: 'Qtde2A', label: 'Qtde2A' },
     { property: 'Preco', label: 'Preco'},
-    { property: 'R$', label: 'Total' },
-    { property: 'Pagamento', label: 'Pagamento', visible: false, allowColumnsManager: true},
-    { property: 'Condicao', label: 'Condicao', visible: false, allowColumnsManager: true},
-    { property: 'Fornecedor', label: 'Cod For', visible: false, allowColumnsManager: true},
-    { property: 'Loja', label: 'Loja', visible: false, allowColumnsManager: true},
-  
+    { property: 'R$', label: 'R$' },
+    { property: 'Pagamento', label: 'Pagamento'},
+    { property: 'Condicao', label: 'Condicao'},
+    { property: 'Fornecedor', label: 'Fornecedor'},
+    { property: 'Loja', label: 'Loja'},
+    { property: 'rzSocial', label: 'rzSocial'},
     { property: 'Data', label: 'Data'}
   ];
 
   readonly detailFields: Array<PoDynamicViewField> = [
-    { property: 'status', tag: true, gridLgColumns: 2},
-    { property: 'Id', visible: false },
-    { property: 'Item', visible: false },
-    { property: 'Pedido', label: 'Pedido', gridLgColumns: 2 },
-    { property: 'Pagamento', label: 'Cod Pagamento', gridLgColumns: 4, divider: 'Financeiro'  },
-    { property: 'Condicao', label: 'Descrição', gridLgColumns: 4  },
-    { property: 'Codigo', gridLgColumns: 4, divider: 'Material' },
-    { property: 'Produto', gridLgColumns: 8},
-    { property: 'Un1A', gridLgColumns: 2, divider: 'Quantitativos'  },
-    { property: 'Un2A', gridLgColumns: 2 },
-    { property: 'Qtde1A', gridLgColumns: 2 },
-    { property: 'Qtde2A', gridLgColumns: 2 },
-    { property: 'Preco', gridLgColumns: 2 },
-    { property: 'R$', gridLgColumns: 2 },
-    { property: 'Fornecedor', gridLgColumns: 4,  divider: 'Fornecedor' },
-    { property: 'Loja', gridLgColumns: 2 },
-    { property: 'rzSocial', gridLgColumns: 6 },
-    { property: 'Data', label: 'Data Emissão', type: 'date',  divider: 'Datas' },
+    { property: 'status', tag: true, gridLgColumns: 4, divider: 'Personal Data' },
+    { property: 'name', gridLgColumns: 4 },
+    { property: 'nickname', label: 'User name', gridLgColumns: 4 },
+    { property: 'email', gridLgColumns: 4 },
+    { property: 'birthdate', gridLgColumns: 4, type: 'date' },
+    { property: 'genre', gridLgColumns: 4, gridSmColumns: 6 },
+    { property: 'cityName', label: 'City', divider: 'Address' },
+    { property: 'state' },
+    { property: 'country' }
   ];
 
   pageCustomActions: Array<PoPageDynamicTableCustomAction> = [
@@ -145,20 +136,6 @@ export class PedidosComponent implements OnInit {
 
   constructor(private usersService: PedidosService) {}
 
-  tableCustomActions: Array<PoPageDynamicTableCustomTableAction> = [
-    {
-      label: 'Editar',
-      action: this.onClickUserDetail.bind(this),
-      disabled: false,
-      icon: 'ph ph-note-pencil'
-    },
-    {
-      label: 'Aprovar',
-      action: this.onClickDependents.bind(this),
-      visible: true,
-      icon: 'ph ph-check-fat'
-    }
-  ]
   ngOnInit(): void {
     console.log(this.fields)
     this.pageCustomActions = [
@@ -193,8 +170,6 @@ export class PedidosComponent implements OnInit {
   private onClickUserDetail(user: any) {
 
     this.detailedUser = user;
-
-    console.log(this.detailedUser)
 
     this.userDetailModal.open();
   }
