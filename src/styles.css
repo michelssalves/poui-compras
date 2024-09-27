@@ -13,7 +13,7 @@ ul {
      --color-brand-01-darkest: #505f69;
      --color-brand-01-dark: #045b8f;
      --color-current-page: #238ac7;
-
+     --color-action-default: #045b8f;
 }
 
 .po-menu,
