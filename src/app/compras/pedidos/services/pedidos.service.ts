@@ -51,8 +51,14 @@ export class PedidosService {
 
     return encodeURIComponent(csvStr);
   }
-  getFornecedorDetails(fornecedor: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/fornecedor-details?cod=${fornecedor}`);
+  getFornecedorDetails(codigo: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}get_fornecedor_details?codigo=${codigo}`);
+  }
+  getProdutoDetails(codigo: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}get_produto_details?codigo=${codigo}`);
+  }
+  getPagamentoDetails(codigo: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}get_pagamento_details?codigo=${codigo}`);
   }
 
 }

@@ -183,11 +183,58 @@ export class PedidosComponent implements OnInit {
     if (fornecedor) {
       this.usersService.getFornecedorDetails(fornecedor).subscribe(
         (dados: any) => {
-          this.pedido.Loja = dados.Loja;
-          this.pedido.rzSocial = dados.rzSocial;
+          console.log(dados)
+          if (dados.bloqueado !== '2') {
+            this.pedido.Loja = dados.loja;
+            this.pedido.rzSocial = dados.razaoSocial;
+          } else {
+            alert('Fornecedor Bloqueado!');
+            this.pedido.Fornecedor = '';
+          }
         },
         error => {
           console.error('Erro ao buscar dados do fornecedor:', error);
+          alert('Codigo Inválido!')
+        }
+      );
+    }
+  }
+  buscarDadosProduto(fornecedor: string) {
+    if (fornecedor) {
+      this.usersService.getProdutoDetails(fornecedor).subscribe(
+        (dados: any) => {
+          console.log(dados)
+          if (dados.bloqueado !== '2') {
+            this.pedido.Loja = dados.loja;
+            this.pedido.rzSocial = dados.razaoSocial;
+          } else {
+            alert('Fornecedor Bloqueado!');
+            this.pedido.Fornecedor = '';
+          }
+        },
+        error => {
+          console.error('Erro ao buscar dados do fornecedor:', error);
+          alert('Codigo Inválido!')
+        }
+      );
+    }
+  }
+  buscarDadosPagamento(fornecedor: string) {
+    if (fornecedor) {
+      this.usersService.getPagamentoDetails(fornecedor).subscribe(
+        (dados: any) => {
+          console.log(dados)
+          if (dados.bloqueado !== '2') {
+            this.pedido.Loja = dados.loja;
+            this.pedido.rzSocial = dados.razaoSocial;
+          } else {
+            alert('Fornecedor Bloqueado!');
+            this.pedido.Fornecedor = '';
+          }
+        },
+        error => {
+          console.error('Erro ao buscar dados do fornecedor:', error);
+          alert('Codigo Inválido!')
         }
       );
     }

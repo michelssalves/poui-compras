@@ -24,7 +24,7 @@
         </po-input>
       </div>
       <div class="po-md-2">
-        <po-input p-label="Cod Condição" [(ngModel)]="pedido.Pagamento">
+        <po-input p-label="Cod Condição" [(ngModel)]="pedido.Pagamento" (ngModelChange)="buscarDadosPagamento($event)">
         </po-input>
       </div>
       <div class="po-md-4">
@@ -34,7 +34,7 @@
     </div>
     <div class="po-md-12">
       <div class="po-md-4">
-        <po-input p-label="Código" [(ngModel)]="pedido.Codigo" p-placeholder="Digite o código do produto">
+        <po-input p-label="Código" [(ngModel)]="pedido.Codigo" (ngModelChange)="buscarDadosProduto($event)">
         </po-input>
       </div>
 
@@ -71,7 +71,7 @@
     </div>
     <div class="po-md-12">
       <div class="po-md-2">
-        <po-input p-label="Fornecedor" [(ngModel)]="pedido.Fornecedor" (ngModelChange)="buscarDadosFornecedor($event)">
+        <po-input type="number" p-label="Fornecedor" [(ngModel)]="pedido.Fornecedor" (ngModelChange)="buscarDadosFornecedor($event)">
         </po-input>
       </div>
       <div class="po-md-1">
