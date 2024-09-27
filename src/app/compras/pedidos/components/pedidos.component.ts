@@ -14,6 +14,7 @@ import {
 } from '@po-ui/ng-templates';
 import { PedidosService } from '../services';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-pedidos',
@@ -34,7 +35,8 @@ import { CommonModule } from '@angular/common';
     PoButtonModule,
     PoPageDynamicDetailModule,
     PoPageDynamicEditModule,
-    PoPageDynamicTableModule
+    PoPageDynamicTableModule,
+    FormsModule
 
     ],
   templateUrl: './pedidos.component.html',
@@ -48,7 +50,8 @@ export class PedidosComponent implements OnInit {
   serviceApi = 'http://vhwin1065:9023/rest/zWSPedidos/get_all_po?data1=20240906&data2=20240906';
 
   actionsRight = false;
-  detailedUser: any;
+  detailedUser: any = {};
+  pedido: any = {};
   dependents: any;
   quickSearchWidth: number = 3;
   fixedFilter = false;
@@ -147,8 +150,14 @@ export class PedidosComponent implements OnInit {
 
   tableCustomActions: Array<PoPageDynamicTableCustomTableAction> = [
     {
-      label: 'Editar',
+      label: 'Visualizar',
       action: this.onClickUserDetail.bind(this),
+      disabled: false,
+      icon: 'ph ph-note-pencil'
+    },
+    {
+      label: 'Editar',
+      action: this.onClickDependents.bind(this),
       disabled: false,
       icon: 'ph ph-note-pencil'
     },
@@ -190,7 +199,7 @@ export class PedidosComponent implements OnInit {
     window.print();
   }
 
-  private onClickUserDetail(user: any) {
+  public onClickUserDetail(user: any) {
 
     this.detailedUser = user;
 
@@ -201,7 +210,7 @@ export class PedidosComponent implements OnInit {
 
   private onClickDependents(user: any) {
     console.log(user)
-    this.dependents = user.Id;
+    this.pedido = user;
 
     this.dependentsModal.open();
   }
