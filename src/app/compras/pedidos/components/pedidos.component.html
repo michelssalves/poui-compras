@@ -70,9 +70,17 @@
       </div>
     </div>
     <div class="po-md-12">
-      <div class="po-md-2">
-        <po-input type="number" p-label="Fornecedor" [(ngModel)]="pedido.Fornecedor" (ngModelChange)="buscarDadosFornecedor($event)">
-        </po-input>
+      <div class="po-md-8">
+        <po-select
+        name="label"
+        p-label="Select Field Label"
+        [p-options]="optionsSelect"
+        p-label="string"
+        (ngModelChange)="buscarDadosFornecedor($event)"
+      >
+     </po-select>
+        <!-- <po-input type="number" p-label="Fornecedor" [(ngModel)]="pedido.Fornecedor" >
+        </po-input> -->
       </div>
       <div class="po-md-1">
         <po-input p-label="Loja" [(ngModel)]="pedido.Loja">

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { PoBreadcrumb, PoButtonModule, PoContainerModule, PoDynamicModule, PoDynamicViewField, PoFieldModule, PoInfoModule, PoModalComponent, PoModalModule, PoPageModule, PoTableModule, PoWidgetModule } from '@po-ui/ng-components';
+import { PoBreadcrumb, PoButtonModule, PoContainerModule, PoDynamicModule, PoDynamicViewField, PoFieldModule, PoInfoModule, PoModalComponent, PoModalModule, PoPageModule, PoSelectOption, PoTableModule, PoWidgetModule } from '@po-ui/ng-components';
 import {
   PoPageDynamicTableActions,
   PoPageDynamicTableCustomAction,
@@ -14,8 +14,7 @@ import {
 } from '@po-ui/ng-templates';
 import { PedidosService } from '../services';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-pedidos',
   standalone: true,
@@ -36,7 +35,8 @@ import { FormsModule } from '@angular/forms';
     PoPageDynamicDetailModule,
     PoPageDynamicEditModule,
     PoPageDynamicTableModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
 
     ],
   templateUrl: './pedidos.component.html',
@@ -52,9 +52,23 @@ export class PedidosComponent implements OnInit {
   actionsRight = false;
   detailedUser: any = {};
   pedido: any = {};
+  fieldLabel = 'razaoSocial';
   dependents: any;
   quickSearchWidth: number = 3;
   fixedFilter = false;
+
+  public readonly optionsSelect: Array<PoSelectOption> = [
+    { label: 'codigo', value: 'codigo' },
+    { label: 'nomeFantasia', value: 'nomeFantasia' },
+    { label: 'razaoSocial', value: 'razaoSocial' },
+    { label: 'label', value: 'label' },
+    { label: 'cnpj', value: 'cnpj' },
+    { label: 'value', value: 'value' },
+    { label: 'id', value: 'id' },
+    { label: 'email', value: 'email' },
+    { label: 'data', value: 'data' },
+    { label: 'origem', value: 'origem' }
+  ];
 
   readonly actions: PoPageDynamicTableActions = {
     new: 'pedidos/new',
