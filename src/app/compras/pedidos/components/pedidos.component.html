@@ -71,7 +71,7 @@
     </div>
     <div class="po-md-12">
       <div class="po-md-2">
-        <po-input p-label="Fornecedor" [(ngModel)]="pedido.Fornecedor">
+        <po-input p-label="Fornecedor" [(ngModel)]="pedido.Fornecedor" (ngModelChange)="buscarDadosFornecedor($event)">
         </po-input>
       </div>
       <div class="po-md-1">
@@ -83,7 +83,6 @@
         </po-input>
       </div>
     </div>
-    
   </div>
 </po-modal>
 

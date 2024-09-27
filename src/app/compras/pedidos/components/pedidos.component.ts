@@ -179,6 +179,19 @@ export class PedidosComponent implements OnInit {
       }
     ];
   }
+  buscarDadosFornecedor(fornecedor: string) {
+    if (fornecedor) {
+      this.usersService.getFornecedorDetails(fornecedor).subscribe(
+        (dados: any) => {
+          this.pedido.Loja = dados.Loja;
+          this.pedido.rzSocial = dados.rzSocial;
+        },
+        error => {
+          console.error('Erro ao buscar dados do fornecedor:', error);
+        }
+      );
+    }
+  }
  //COLUNAS
   onLoad(): PoPageDynamicTableOptions {
     return {
