@@ -1,4 +1,4 @@
-npm new proof-of-delivery --skip-install
+ng new suprimentos --skip-install
 
 npm install
 
