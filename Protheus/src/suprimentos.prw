@@ -7,6 +7,7 @@ User Function menuSuprimentos()
 Return 
 
 User Function suprimentos()
+
    RpcClearenv()
    RPCSetType(3)
    RpcSetEnv('02')
