@@ -1,4 +1,8 @@
 #include "protheus.ch"
+#INCLUDE 'totvs.ch'
+#INCLUDE 'restful.ch'
+#INCLUDE "topconn.ch"
+
 
 User Function menuSuprimentos()
 
